@@ -52,6 +52,13 @@ Shortcuts:
 `--update`, `-u`
 `--delete`, `-d`
 
+### `show`
+```
+xref show <sourcename>
+```
+
+Shows the JSON on the `<sourcename>` in the current repo
+
 ### `switch`
 ```
 xref switch <reponame>

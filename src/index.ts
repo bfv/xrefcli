@@ -10,6 +10,7 @@ import { ListCommand } from './commands/list';
 import { ParseCommand } from './commands/parse';
 import { RemoveCommand } from './commands/remove';
 import { SearchCommand } from './commands/search';
+import { ShowCommand } from './commands/show';
 import { SwitchCommand } from './commands/switch';
 import { ValidateCommand } from './commands/validate';
 
@@ -39,6 +40,9 @@ switch (args.command) {
         break;
     case 'search':
         commandExecutor = new SearchCommand(config);
+        break;
+    case 'show':
+        commandExecutor = new ShowCommand(config);
         break;
     case 'switch':
         commandExecutor = new SwitchCommand(config);

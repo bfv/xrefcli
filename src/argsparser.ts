@@ -45,6 +45,10 @@ export class ArgsParser {
                 optionDefs = this.searchOptions(optionDefs);
                 break;
 
+            case 'show':
+                optionDefs = this.showOptions(optionDefs);
+                break;
+
             case 'switch':
                 optionDefs = this.switchOptions(optionDefs);
                 break;
@@ -92,6 +96,11 @@ export class ArgsParser {
         optionDefs.push({ name: 'delete', alias: 'd'});
         optionDefs.push({ name: 'json', type: Boolean });
         optionDefs.push({ name: 'batch', alias: 'b', type: Boolean });  // batch, no count in results
+        return optionDefs;
+    }
+
+    private showOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push({ name: 'source', alias: 's', defaultOption: true });
         return optionDefs;
     }
 
