@@ -22,4 +22,8 @@ export class ListCommand implements Executable {
         }
     }
 
+    validate() {
+        return true;
+    }
+
 }

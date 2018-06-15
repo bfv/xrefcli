@@ -31,6 +31,9 @@ switch (args.command) {
 }
 
 if (commandExecutor !== undefined) {
+    if (!commandExecutor.validate(args)) {
+        process.exit(1);
+    }
     commandExecutor.execute(args);
 }
 
