@@ -4,6 +4,7 @@ import { Config } from './config';
 import { Executable } from './executable';
 import { InitCommand } from './commands/init';
 import { ListCommand } from './commands/list';
+import { ParseCommand } from './commands/parse';
 import { RemoveCommand } from './commands/remove';
 import { SwitchCommand } from './commands/switch';
 
@@ -21,6 +22,9 @@ switch (args.command) {
         break;
     case 'list':
         commandExecutor = new ListCommand(config);
+        break;
+    case 'parse':
+        commandExecutor = new ParseCommand(config);
         break;
     case 'remove':
         commandExecutor = new RemoveCommand(config);
