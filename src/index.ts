@@ -2,6 +2,9 @@
 import { ArgsParser } from './argsparser';
 import { Config } from './config';
 import { Executable } from './executable';
+
+// commands
+import { AboutCommand } from './commands/about';
 import { InitCommand } from './commands/init';
 import { ListCommand } from './commands/list';
 import { ParseCommand } from './commands/parse';
@@ -19,6 +22,9 @@ const args = argsParser.parse();
 let commandExecutor: Executable | undefined;
 
 switch (args.command) {
+    case 'about':
+        commandExecutor = new AboutCommand(config);
+        break;
     case 'init':
         commandExecutor = new InitCommand(config);
         break;
