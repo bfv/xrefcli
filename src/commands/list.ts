@@ -13,10 +13,10 @@ export class ListCommand implements Executable {
         const name = <string>params['options']['name'];
 
         if (<boolean>params['options']['json']) {
-            console.log(JSON.stringify(this.config.config.repos));
+            console.log(JSON.stringify(this.config.data.repos));
         }
         else {
-            this.config.config.repos.forEach(repo => {
+            this.config.data.repos.forEach(repo => {
                 console.log(repo);
             });
         }

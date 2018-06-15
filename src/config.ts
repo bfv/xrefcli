@@ -1,10 +1,11 @@
 
 import * as path from 'path';
 import * as fs from 'fs';
+import { Repo } from './repo';
 
 export class Config {
 
-    config = new ConfigData();
+    data = new ConfigData();
 
     private configRootDir = '';
     private reposDir = '';
@@ -12,7 +13,7 @@ export class Config {
 
     initialize() {
         this.checkDirs();
-        this.config = this.loadConfig();
+        this.data = this.loadConfig();
     }
 
     private checkDirs() {
@@ -43,33 +44,33 @@ export class Config {
     }
 
     saveConfig() {
-        fs.writeFileSync(this.configFile, JSON.stringify(this.config, null, 4));
+        fs.writeFileSync(this.configFile, JSON.stringify(this.data, null, 4));
     }
 
-    addRepo(reponame: string): void {
-        reponame = reponame.toLowerCase();
-        if (this.config.repos.findIndex(item => item === reponame) === -1) {
-            this.config.repos.push(reponame);
+    addRepo(repo: Repo): void {
+
+        if (this.data.repos.findIndex(item => item.name === repo.name) === -1) {
+            this.data.repos.push(repo);
         }
     }
 
     removeRepo(reponame: string) {
         reponame = reponame.toLowerCase();
-        if (this.config.repos.findIndex(item => item === reponame) === -1) {
+        if (this.data.repos.findIndex(item => item.name === reponame) === -1) {
             console.error(`Error: repo '${reponame}' not found`);
             process.exit(1);
         }
-        this.config.repos = this.config.repos.filter(name => name !== reponame);
+        this.data.repos = this.data.repos.filter(item => item.name !== reponame);
     }
 
     repoExists(reponame: string): boolean {
-        return (this.config.repos.findIndex(item => item === reponame) !== -1);
+        return (this.data.repos.findIndex(item => item.name === reponame) !== -1);
     }
 }
 
 export class ConfigData {
     current = '';
-    repos: string[] = [];
+    repos: Repo[] = [];
 }
 
 

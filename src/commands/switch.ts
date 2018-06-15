@@ -14,7 +14,7 @@ export class SwitchCommand implements Executable {
 
         if (name !== undefined) {
             if (this.config.repoExists(name)) {
-                this.config.config.current = name;
+                this.config.data.current = name;
                 console.log(name);
             }
             else {
@@ -23,7 +23,7 @@ export class SwitchCommand implements Executable {
             }
         }
         else {
-            console.log(this.config.config.current);
+            console.log(this.config.data.current);
         }
     }
 
