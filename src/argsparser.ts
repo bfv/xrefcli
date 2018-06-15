@@ -30,7 +30,7 @@ export class ArgsParser {
                 break;
 
             case 'list':
-                optionDefs = [ { name: 'json', type: Boolean } ];
+                optionDefs = this.listOptions(optionDefs);
                 break;
 
             case 'remove':
@@ -54,6 +54,14 @@ export class ArgsParser {
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'dir', alias: 'd' });
         optionDefs.push({ name: 'srcdir', alias: 's' });
+        return optionDefs;
+    }
+
+    private listOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push({ name: 'json', type: Boolean });
+        optionDefs.push({ name: 'indent', alias: 'i', type: Boolean });
+        optionDefs.push({ name: 'verbose', alias: 'v', type: Boolean });
+        // optionDefs.push(this.nameDefinition);
         return optionDefs;
     }
 
