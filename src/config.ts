@@ -66,6 +66,24 @@ export class Config {
     repoExists(reponame: string): boolean {
         return (this.data.repos.findIndex(item => item.name === reponame) !== -1);
     }
+
+    writeRepoData(reponame: string, xrefdata: any): boolean {
+
+        const repofilename = this.getRepoFilename(reponame);
+        fs.writeFileSync(repofilename, JSON.stringify(xrefdata, undefined, 2));
+
+        return true;
+    }
+
+    getRepo(reponame: string): Repo {
+        const repo = this.data.repos.filter(item => item.name === reponame.toLowerCase())[0];
+        return repo;
+    }
+
+    private getRepoFilename(reponame: string) {
+        const repofilename = this.reposDir + path.sep + reponame + '.json';
+        return repofilename;
+    }
 }
 
 export class ConfigData {

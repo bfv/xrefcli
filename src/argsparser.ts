@@ -33,6 +33,10 @@ export class ArgsParser {
                 optionDefs = this.listOptions(optionDefs);
                 break;
 
+            case 'parse':
+                optionDefs = this.parseOptions(optionDefs);
+                break;
+
             case 'remove':
                 optionDefs = this.removeOptions(optionDefs);
                 break;
@@ -62,6 +66,11 @@ export class ArgsParser {
         optionDefs.push({ name: 'indent', alias: 'i', type: Boolean });
         optionDefs.push({ name: 'verbose', alias: 'v', type: Boolean });
         // optionDefs.push(this.nameDefinition);
+        return optionDefs;
+    }
+
+    private parseOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push(this.nameDefinition);
         return optionDefs;
     }
 
