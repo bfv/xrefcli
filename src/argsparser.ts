@@ -3,7 +3,7 @@ import { OptionDefinition } from 'command-line-args';
 
 export class ArgsParser {
 
-    private nameDefinition: OptionDefinition = { name: 'name', alias: 'n' };
+    private nameDefinition: OptionDefinition = { name: 'name', alias: 'n', defaultOption: true };
 
     parse(): CliArgs {
 
