@@ -53,7 +53,7 @@ export class ArgsParser {
     private initOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'dir', alias: 'd' });
-        optionDefs.push({ name: 'srcBase', alias: 's' });
+        optionDefs.push({ name: 'srcdir', alias: 's' });
         return optionDefs;
     }
 
