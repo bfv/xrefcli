@@ -61,9 +61,11 @@ If `--xref` is specified the original XREF file content is showed. For example:
 ```
 xref show src/customer.cls --xref | grep -i custnum
 ```
-will show all the original xref lines with custnum in it
-Shows the JSON about the `<sourcename>` in the current repo.
+will show all the original xref lines with custnum in it.
+
 The `--table` option shows the tables accessed on way or another by `<sourcename>`. When `--tables` is used, the output can be JSON as well by adding `--json`.
+
+If neither `--xref` nor `--tables` is specified then the JSON about the `<sourcename>` in the current repo is showed.
 
 ### `switch`
 ```
