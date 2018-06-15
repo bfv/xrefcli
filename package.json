@@ -1,6 +1,6 @@
 {
   "name": "xrefcli",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "CLI command for the searching through OpenEdge XREF",
   "main": "index.js",
   "bin": {
