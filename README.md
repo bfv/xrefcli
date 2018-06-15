@@ -1,5 +1,5 @@
-# XREF CLI
-The XREF CLI package gives the possibility to search in `.xref` files via the `xref` command.
+# OpenEdge XREF CLI
+The XREF CLI package gives the possibility to search in OpenEdge `.xref` files via the `xref` command.
 The tools is built around repositories. The flow is:
 
 - initialize a repository with `xref init...`
