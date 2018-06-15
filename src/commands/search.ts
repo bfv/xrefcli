@@ -14,6 +14,8 @@ export class SearchCommand implements Executable {
     private hasCreates?: boolean;
     private hasUpdates?: boolean;
     private hasDeletes?: boolean;
+    private batch = false;
+    private jsonOutput = false;
 
     constructor(config: Config) {
         this.config = config;
@@ -26,16 +28,24 @@ export class SearchCommand implements Executable {
 
         let result: XrefFile[] = [];
         if (this.field !== undefined) {
-            console.log('search field');
             result = searcher.getFieldReferences(this.field, this.table, this.hasUpdates);
         }
         else if (this.table !== undefined) {
-            console.log('search table', this.table);
             result = searcher.getTabelReferences(this.table, this.hasCreates, this.hasUpdates, this.hasDeletes);
         }
 
-        console.log(result.map(item => item.sourcefile));
-        console.log('count=', result.length);
+        if (this.jsonOutput) {
+            console.log(JSON.stringify(result.map(item => item.sourcefile), undefined, 2));
+        }
+        else {
+            result.map(item => item.sourcefile).forEach(source => {
+                console.log(source);
+            });
+        }
+
+        if (!this.batch) {
+            console.log('count=', result.length);
+        }
     }
 
     validate(params: any) {
@@ -55,11 +65,18 @@ export class SearchCommand implements Executable {
 
         this.field = options['field'];
         this.table = options['table'];
-        // console.log('field:', this.field);
-        // console.log('table:', this.table);
+
         this.hasCreates = this.parseCrudValue(<string>options['create']);
         this.hasUpdates = this.parseCrudValue(<string>options['update']);
         this.hasDeletes = this.parseCrudValue(<string>options['delete']);
+
+        if ((<boolean>options['batch']) === true) {
+            this.batch = true;
+        }
+
+        if ((<boolean>options['json']) === true) {
+            this.jsonOutput = true;
+        }
 
         this.reponame = reponame;
 

@@ -90,6 +90,8 @@ export class ArgsParser {
         optionDefs.push({ name: 'create', alias: 'c'});
         optionDefs.push({ name: 'update', alias: 'u' });
         optionDefs.push({ name: 'delete', alias: 'd'});
+        optionDefs.push({ name: 'json', type: Boolean });
+        optionDefs.push({ name: 'batch', alias: 'b', type: Boolean });  // batch, no count in results
         return optionDefs;
     }
 
