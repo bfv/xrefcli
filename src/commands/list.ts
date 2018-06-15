@@ -22,7 +22,7 @@ export class ListCommand implements Executable {
         }
     }
 
-    validate() {
+    validate(params: any) {
         return true;
     }
 

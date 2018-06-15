@@ -16,7 +16,7 @@ export class InitCommand implements Executable {
         console.log(name);
     }
 
-    validate() {
+    validate(params: any) {
         return true;
     }
 

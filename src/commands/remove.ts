@@ -16,7 +16,7 @@ export class RemoveCommand implements Executable {
         console.log(name);
     }
 
-    validate() {
+    validate(params: any) {
         return true;
     }
 

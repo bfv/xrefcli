@@ -27,7 +27,7 @@ export class SwitchCommand implements Executable {
         }
     }
 
-    validate() {
+    validate(params: any) {
         return true;
     }
 }
