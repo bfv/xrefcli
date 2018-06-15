@@ -31,6 +31,7 @@
     "@types/command-line-args": "^5.0.0",
     "@types/node": "^10.3.3",
     "command-line-args": "^5.0.2",
-    "command-line-usage": "^5.0.5"
+    "command-line-usage": "^5.0.5",
+    "xrefparser": "^0.2.0"
   }
 }
