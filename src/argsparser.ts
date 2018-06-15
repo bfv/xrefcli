@@ -4,6 +4,7 @@ import { OptionDefinition } from 'command-line-args';
 export class ArgsParser {
 
     private nameDefinition: OptionDefinition = { name: 'name', alias: 'n', defaultOption: true };
+    private jsonDefinition: OptionDefinition = { name: 'json', type: Boolean };
 
     parse(): CliArgs {
 
@@ -17,9 +18,6 @@ export class ArgsParser {
 
         const mainOptions = commandLineArgs(mainDefinitions, { stopAtFirstUnknown: true });
         const argv = mainOptions._unknown || [];
-
-        // console.log('mainOptions\n===========');
-        // console.log(mainOptions);
 
         let options = {};
 
@@ -70,10 +68,9 @@ export class ArgsParser {
     }
 
     private listOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
-        optionDefs.push({ name: 'json', type: Boolean });
+        optionDefs.push(this.jsonDefinition);
         optionDefs.push({ name: 'indent', alias: 'i', type: Boolean });
         optionDefs.push({ name: 'verbose', alias: 'v', type: Boolean });
-        // optionDefs.push(this.nameDefinition);
         return optionDefs;
     }
 
@@ -94,13 +91,16 @@ export class ArgsParser {
         optionDefs.push({ name: 'create', alias: 'c'});
         optionDefs.push({ name: 'update', alias: 'u' });
         optionDefs.push({ name: 'delete', alias: 'd'});
-        optionDefs.push({ name: 'json', type: Boolean });
+        optionDefs.push(this.jsonDefinition);
         optionDefs.push({ name: 'batch', alias: 'b', type: Boolean });  // batch, no count in results
         return optionDefs;
     }
 
     private showOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push({ name: 'source', alias: 's', defaultOption: true });
+        optionDefs.push({ name: 'tables', alias: 't', type: Boolean });
+        optionDefs.push(this.jsonDefinition);
+        optionDefs.push({ name: 'xref', alias: 'x', type: Boolean });
         return optionDefs;
     }
 
