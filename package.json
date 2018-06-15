@@ -1,0 +1,36 @@
+{
+  "name": "xrefcli",
+  "version": "0.0.6",
+  "description": "CLI command for the xrefparser package",
+  "main": "index.js",
+  "bin": {
+    "xref": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bfv/xrefcli.git"
+  },
+  "keywords": [
+    "openedge",
+    "xref",
+    "cli"
+  ],
+  "author": "bfv <dev@bfv.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bfv/xrefparser/issues"
+  },
+  "homepage": "https://github.com/bfv/xrefparser#readme",
+  "devDependencies": {
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "@types/command-line-args": "^5.0.0",
+    "@types/node": "^10.3.3",
+    "command-line-args": "^5.0.2",
+    "command-line-usage": "^5.0.5"
+  }
+}
