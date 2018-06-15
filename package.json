@@ -1,6 +1,6 @@
 {
   "name": "xrefcli",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "CLI command for the xrefparser package",
   "main": "index.js",
   "bin": {
