@@ -4,6 +4,7 @@ import { Executable } from './../executable';
 export class RemoveCommand implements Executable {
 
     config: Config;
+    reponame = '';
 
     constructor(config: Config) {
         this.config = config;
@@ -19,12 +20,19 @@ export class RemoveCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
-        const name = <string> options['name'];
+        const reponame = <string> options['name'];
 
-        if (name === undefined) {
-            console.error('Error: a name should be provided');
+        if (reponame === undefined) {
+            console.error('Error: a repo name should be provided');
             return false;
         }
+
+        if (!this.config.repoExists(reponame)) {
+            console.error(`Error: repo '${reponame}' does not exist`);
+            return false;
+        }
+
+        this.reponame = reponame;
 
         return true;
     }
