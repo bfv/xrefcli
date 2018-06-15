@@ -27,24 +27,24 @@ export class InitCommand implements Executable {
         const options = params['options'];
         const name = <string>options['name'];
         if (name === undefined || name === '') {
-            console.error('repo name should supplied');
+            console.error('Error: repo name should supplied');
             return false;
         }
 
         const dir = <string>options['dir'];
         if (dir === undefined || dir === '') {
-            console.error('xref directory (--dir) should be supplied');
+            console.error('Error: xref directory (--dir) should be supplied');
             return false;
         }
 
         if (!fs.existsSync(dir)) {
-            console.error(`directory '${dir}' does not exist`);
+            console.error(`Error: directory '${dir}' does not exist`);
             return false;
         }
 
         const dirInfo = fs.lstatSync(dir);
         if (!dirInfo.isDirectory()) {
-            console.error(`'${dir}' is not a directory`);
+            console.error(`Error: '${dir}' is not a directory`);
             return false;
         }
 

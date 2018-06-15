@@ -10,13 +10,22 @@ export class RemoveCommand implements Executable {
     }
 
     execute(params: any): void {
-        const name = <string>params['options']['name'];
+
         this.config.removeRepo(name);
         this.config.data.current = '';
         console.log(name);
     }
 
     validate(params: any) {
+
+        const options = params['options'];
+        const name = <string> options['name'];
+
+        if (name === undefined) {
+            console.error('Error: a name should be provided');
+            return false;
+        }
+
         return true;
     }
 
