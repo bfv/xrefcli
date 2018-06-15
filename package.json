@@ -1,6 +1,6 @@
 {
   "name": "xrefcli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "CLI command for the xrefparser package",
   "main": "index.js",
   "bin": {
@@ -21,9 +21,9 @@
   "author": "bfv <dev@bfv.io>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bfv/xrefparser/issues"
+    "url": "https://github.com/bfv/xrefcli/issues"
   },
-  "homepage": "https://github.com/bfv/xrefparser#readme",
+  "homepage": "https://github.com/bfv/xrefcli#readme",
   "devDependencies": {
     "typescript": "^2.9.2"
   },
