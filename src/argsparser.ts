@@ -41,6 +41,10 @@ export class ArgsParser {
                 optionDefs = this.removeOptions(optionDefs);
                 break;
 
+            case 'search':
+                optionDefs = this.searchOptions(optionDefs);
+                break;
+
             case 'switch':
                 optionDefs = this.switchOptions(optionDefs);
                 break;
@@ -76,6 +80,16 @@ export class ArgsParser {
 
     private removeOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push(this.nameDefinition);
+        return optionDefs;
+    }
+
+    private searchOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push(this.nameDefinition);
+        optionDefs.push({ name: 'field', alias: 'f' });
+        optionDefs.push({ name: 'table', alias: 't' });
+        optionDefs.push({ name: 'create', alias: 'c'});
+        optionDefs.push({ name: 'update', alias: 'u' });
+        optionDefs.push({ name: 'delete', alias: 'd'});
         return optionDefs;
     }
 

@@ -6,7 +6,9 @@ import { InitCommand } from './commands/init';
 import { ListCommand } from './commands/list';
 import { ParseCommand } from './commands/parse';
 import { RemoveCommand } from './commands/remove';
+import { SearchCommand } from './commands/search';
 import { SwitchCommand } from './commands/switch';
+import { ValidateCommand } from './commands/validate';
 
 const config = new Config();
 config.initialize();
@@ -29,8 +31,14 @@ switch (args.command) {
     case 'remove':
         commandExecutor = new RemoveCommand(config);
         break;
+    case 'search':
+        commandExecutor = new SearchCommand(config);
+        break;
     case 'switch':
         commandExecutor = new SwitchCommand(config);
+        break;
+    case 'validate':
+        commandExecutor = new ValidateCommand(config);
         break;
 }
 

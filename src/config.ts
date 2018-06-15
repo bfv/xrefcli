@@ -2,6 +2,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { Repo } from './repo';
+import { XrefFile} from 'xrefparser';
 
 export class Config {
 
@@ -83,6 +84,12 @@ export class Config {
     private getRepoFilename(reponame: string) {
         const repofilename = this.reposDir + path.sep + reponame + '.json';
         return repofilename;
+    }
+
+    loadRepo(reponame: string): XrefFile[] {
+        const repofile = this.getRepoFilename(reponame);
+        const xreffile = require(repofile);
+        return xreffile;
     }
 }
 
