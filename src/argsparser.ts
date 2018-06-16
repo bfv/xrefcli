@@ -6,6 +6,7 @@ export class ArgsParser {
 
     private nameDefinition: OptionDefinition = { name: 'name', alias: 'n', defaultOption: true };
     private jsonDefinition: OptionDefinition = { name: 'json', type: Boolean };
+    private helpDefinition: OptionDefinition = { name: 'help', type: Boolean };
 
     parse(): CliArgs {
 
@@ -13,14 +14,15 @@ export class ArgsParser {
 
         let optionDefs: OptionDefinition[] = [];
 
-        const helpDefinitions = [
-            { name: 'help', alias: 'h', type: Boolean }
+        const helpMainDefinitions = [
+            { name: 'help', alias: 'h', type: Boolean, defaultOption: true }
         ];
 
         try {
-            const helpOptions = commandLineArgs(helpDefinitions, { stopAtFirstUnknown: false });
+            const helpOptions = commandLineArgs(helpMainDefinitions, { stopAtFirstUnknown: false });
             if (helpOptions['help'] === true) {
                 this.help();
+                process.exit(0);
             }
         }
         catch (e) {
