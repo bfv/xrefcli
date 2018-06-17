@@ -20,7 +20,7 @@ export class AboutCommand implements Executable {
         console.log('author: ', module.exports['author']);
         }
         else {
-            console.log('author: ', module.exports['author']['name'] + ' <' + module.exports['author']['emai'] + '>');
+            console.log('author: ', module.exports['author']['name'] + ' <' + module.exports['author']['email'] + '>');
         }
         console.log('version:', module.exports['version']);
     }
