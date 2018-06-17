@@ -6,7 +6,7 @@ export class ArgsParser {
 
     private nameDefinition: OptionDefinition = { name: 'name', alias: 'n', defaultOption: true };
     private jsonDefinition: OptionDefinition = { name: 'json', type: Boolean };
-    private helpDefinition: OptionDefinition = { name: 'help', type: Boolean };
+    private helpDefinition: OptionDefinition = { name: 'help', alias: 'h', type: Boolean };
 
     parse(): CliArgs {
 
@@ -14,33 +14,29 @@ export class ArgsParser {
 
         let optionDefs: OptionDefinition[] = [];
 
-        const helpMainDefinitions = [
-            { name: 'help', alias: 'h', type: Boolean, defaultOption: true }
-        ];
-
-        try {
-            const helpOptions = commandLineArgs(helpMainDefinitions, { stopAtFirstUnknown: false });
-            if (helpOptions['help'] === true) {
-                this.help();
-                process.exit(0);
-            }
-        }
-        catch (e) {
-            // hide errors
-        }
-
         const mainDefinitions = [
-            { name: 'command', defaultOption: true }
+            { name: 'command', defaultOption: true },
+            { name: 'help', alias: 'h', type: Boolean }
         ];
 
         const mainOptions = commandLineArgs(mainDefinitions, { stopAtFirstUnknown: true });
         const argv = mainOptions._unknown || [];
 
+
         if (mainOptions['command'] === undefined) {
             this.help();
+            process.exit(0);
+        }
+
+        let displayHelp = false;
+        if (<boolean>mainOptions['help'] === true) {
+            displayHelp = true;
         }
 
         let options = {};
+        if (displayHelp) {
+            options = { help: true };
+        }
 
         switch (mainOptions.command) {
 
@@ -73,7 +69,7 @@ export class ArgsParser {
                 break;
         }
 
-        options = commandLineArgs(optionDefs, { argv });
+        options = Object.assign(options, commandLineArgs(optionDefs, { argv }));
 
         return {
             command: mainOptions.command,
@@ -89,8 +85,8 @@ export class ArgsParser {
     }
 
     private listOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push(this.helpDefinition);
         optionDefs.push(this.jsonDefinition);
-        optionDefs.push({ name: 'indent', alias: 'i', type: Boolean });
         optionDefs.push({ name: 'verbose', alias: 'v', type: Boolean });
         return optionDefs;
     }

@@ -1,5 +1,6 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
+import { Help } from '../help';
 
 export class ListCommand implements Executable {
 
@@ -12,14 +13,16 @@ export class ListCommand implements Executable {
     execute(params: any): void {
 
         const options = params['options'];
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.listCommand();
+            process.exit(0);
+        }
+
         const name = <string> options['name'];
         const verbose = <boolean> options['verbose'];
-        const indent = <boolean> options['indent'];
 
-        let numIndent;
-        if (indent) {
-            numIndent = 2;
-        }
+        const numIndent = 2;
 
         if (<boolean>params['options']['json']) {
             if (!verbose) {

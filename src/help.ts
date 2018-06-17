@@ -35,4 +35,24 @@ export class Help {
         const usage = this.commandLineUsage(this.sections);
         console.log(usage);
     }
+
+    listCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - list command',
+                content: 'Display repos'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref list <options>'
+            },
+            {   header: 'Options',
+                content: [
+                    '--verbose, -v   Displays verbose information about the repos',
+                    '--json          output in JSON'
+                ]}
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
 }
