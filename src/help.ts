@@ -36,6 +36,28 @@ export class Help {
         console.log(usage);
     }
 
+    initCommand() {
+
+        this.sections = [
+            {
+                header: 'XREFCLI - init command',
+                content: 'Initialize repo'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref init [--name] <reponame> <options>'
+            },
+            {   header: 'Options',
+                content: [
+                    '--dir, -d       Directory containing OE .xref files',
+                    '--srcdir, -s    Directory name to be removed from all source references'
+                ]}
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+
+    }
+
     listCommand() {
         this.sections = [
             {

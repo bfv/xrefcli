@@ -3,6 +3,7 @@ import { Executable } from './../executable';
 import { Repo } from './../repo';
 import * as path from 'path';
 import * as fs from 'fs';
+import { Help } from '../help';
 
 export class InitCommand implements Executable {
 
@@ -25,6 +26,12 @@ export class InitCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.initCommand();
+            process.exit(0);
+        }
+
         const name = <string>options['name'];
         if (name === undefined || name === '') {
             console.error('Error: repo name should supplied');
