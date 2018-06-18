@@ -50,14 +50,15 @@ Removes the repository
 
 ### `search`
 ```
-xref search [--field <fieldname>] [--table <tablename>] [--create true|false] [--update true|false] [--delete true|false]
+xref search [--field <fieldname>] [--table <tablename>] [--db <dbname>] [--create true|false] [--update true|false] [--delete true|false]
 ```
-Shortcuts:
-`--field`, `-f`
-`--table`, `-t`
-`--create`, `-c`
-`--update`, `-u`
-`--delete`, `-d`
+
+Searches the current repository for references in sources of either field, table or databases. `--field` and `--table` can be combined.
+
+```
+xref search --field custnum --table order --update false
+```
+Search for references `customer.custnum` which are not updated.
 
 ### `show`
 ```

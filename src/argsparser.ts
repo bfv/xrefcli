@@ -105,6 +105,7 @@ export class ArgsParser {
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'field', alias: 'f' });
         optionDefs.push({ name: 'table', alias: 't' });
+        optionDefs.push({ name: 'db' });
         optionDefs.push({ name: 'create', alias: 'c' });
         optionDefs.push({ name: 'update', alias: 'u' });
         optionDefs.push({ name: 'delete', alias: 'd' });

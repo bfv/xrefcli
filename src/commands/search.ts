@@ -11,6 +11,7 @@ export class SearchCommand implements Executable {
     // search params
     private field?: string;
     private table?: string;
+    private db?: string;
     private hasCreates?: boolean;
     private hasUpdates?: boolean;
     private hasDeletes?: boolean;
@@ -32,6 +33,9 @@ export class SearchCommand implements Executable {
         }
         else if (this.table !== undefined) {
             result = searcher.getTabelReferences(this.table, this.hasCreates, this.hasUpdates, this.hasDeletes);
+        }
+        else if (this.db !== undefined) {
+            result = searcher.getDatabaseReferences(this.db);
         }
 
         if (this.jsonOutput) {
@@ -65,6 +69,7 @@ export class SearchCommand implements Executable {
 
         this.field = options['field'];
         this.table = options['table'];
+        this.db = options['db'];
 
         this.hasCreates = this.parseCrudValue(<string>options['create']);
         this.hasUpdates = this.parseCrudValue(<string>options['update']);
