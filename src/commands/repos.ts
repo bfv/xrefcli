@@ -38,7 +38,7 @@ export class ReposCommand implements Executable {
                     console.log(repo.name);
                 }
                 else {
-                    console.log(`${repo.name}: dir=${repo.dir}` + (repo.srcdir !== undefined ? `, src= ${repo.srcdir}` : ''));
+                    console.log(`${repo.name}: dir=${repo.dir}` + (repo.srcdir !== undefined ? `, src=${repo.srcdir}` : ''));
                 }
             });
         }
