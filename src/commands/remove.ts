@@ -12,9 +12,9 @@ export class RemoveCommand implements Executable {
 
     execute(params: any): void {
 
-        this.config.removeRepo(name);
+        this.config.removeRepo(this.reponame);
         this.config.data.current = '';
-        console.log(name);
+        console.log(this.reponame);
     }
 
     validate(params: any) {
