@@ -11,12 +11,19 @@ The tools is built around repositories. The flow is:
 
 ### `init`
 ```
-xref init --dir <xref file dir> [--srcdir <source prefix>]
+xref init <reponame> --dir <xref file dir> [--srcdir <source prefix>]
 
 ```
 
+Initializes a repo (for XREF information) under the name `<reponame>`
 The `--dir` should point to where all the `.xref` files are located.
 When OpenEdge creates `.xref` files in these files the full path of the source is stored. To get rid of the unnecessary prefixes use the `--srcdir` parameter to specify what part of the full path should not be displayed.
+
+```
+xref init tst1 --dir /tmp/xref --srcdir /home/xyz/development/src
+```
+
+Initializes the `tst1` repo, specfies that the xref files are in `/tmp/xref` and make sure that all the refences to source file do not contain `/home/xyz/development/src`. See `xref parse` for processing the xref files.
 
 ### `list`
 ```
