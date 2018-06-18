@@ -25,13 +25,6 @@ xref init tst1 --dir /tmp/xref --srcdir /home/xyz/development/src
 
 Initializes the `tst1` repo, specfies that the xref files are in `/tmp/xref` and make sure that all the refences to source file do not contain `/home/xyz/development/src`. See `xref parse` for processing the xref files.
 
-### `list`
-```
-xref list [--verbose ] [--json]
-```
-`--verbose` display all the information on the repos
-`--json`    diplay info in JSON format
-
 Display the repositories. Without parameters just the names are displayed.
 
 ### `parse`
@@ -47,6 +40,13 @@ xref remove <reponame>
 ```
 
 Removes the repository
+
+### `repos`
+```
+xref repos [--verbose ] [--json]
+```
+`--verbose` display all the information on the repos
+`--json`    diplay info in JSON format
 
 ### `search`
 ```

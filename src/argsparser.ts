@@ -44,16 +44,16 @@ export class ArgsParser {
                 optionDefs = this.initOptions(optionDefs);
                 break;
 
-            case 'list':
-                optionDefs = this.listOptions(optionDefs);
-                break;
-
             case 'parse':
                 optionDefs = this.parseOptions(optionDefs);
                 break;
 
             case 'remove':
                 optionDefs = this.removeOptions(optionDefs);
+                break;
+
+            case 'repos':
+                optionDefs = this.reposOptions(optionDefs);
                 break;
 
             case 'search':
@@ -84,13 +84,6 @@ export class ArgsParser {
         return optionDefs;
     }
 
-    private listOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
-        optionDefs.push(this.helpDefinition);
-        optionDefs.push(this.jsonDefinition);
-        optionDefs.push({ name: 'verbose', alias: 'v', type: Boolean });
-        return optionDefs;
-    }
-
     private parseOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push(this.nameDefinition);
         return optionDefs;
@@ -98,6 +91,13 @@ export class ArgsParser {
 
     private removeOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push(this.nameDefinition);
+        return optionDefs;
+    }
+
+    private reposOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push(this.helpDefinition);
+        optionDefs.push(this.jsonDefinition);
+        optionDefs.push({ name: 'verbose', alias: 'v', type: Boolean });
         return optionDefs;
     }
 

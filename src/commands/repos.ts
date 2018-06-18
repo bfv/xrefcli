@@ -2,7 +2,7 @@ import { Config } from './../config';
 import { Executable } from './../executable';
 import { Help } from '../help';
 
-export class ListCommand implements Executable {
+export class ReposCommand implements Executable {
 
     config: Config;
 
@@ -15,7 +15,7 @@ export class ListCommand implements Executable {
         const options = params['options'];
         if (<boolean>options['help'] === true) {
             const help = new Help();
-            help.listCommand();
+            help.reposCommand();
             process.exit(0);
         }
 

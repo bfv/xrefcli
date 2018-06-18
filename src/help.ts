@@ -18,13 +18,13 @@ export class Help {
                 content: 'xref <command> <options>'
             },
             {
-                header: 'Command list',
+                header: 'Commands',
                 content: [
                     { name: 'about', summary: 'Displays information about version/author etc ' },
                     { name: 'init', summary: 'Initializes repo' },
-                    { name: 'list', summary: 'List the available repos' },
                     { name: 'parse', summary: 'Parses .xref files of repo' },
                     { name: 'remove', summary: 'Removes a repo'},
+                    { name: 'repos', summary: 'List the available repos' },
                     { name: 'search', summary: 'Searches a repo for field/table etc references'},
                     { name: 'show', summary: 'Shows info about a source file'},
                     { name: 'switch', summary: 'Switches the default repo'},
@@ -58,15 +58,15 @@ export class Help {
 
     }
 
-    listCommand() {
+    reposCommand() {
         this.sections = [
             {
-                header: 'XREFCLI - list command',
+                header: 'XREFCLI - repos command',
                 content: 'Display repos'
             },
             {
                 header: 'Synopsis',
-                content: 'xref list <options>'
+                content: 'xref repos <options>'
             },
             {   header: 'Options',
                 content: [
