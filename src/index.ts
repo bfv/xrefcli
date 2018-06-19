@@ -14,6 +14,7 @@ import { SearchCommand } from './commands/search';
 import { ShowCommand } from './commands/show';
 import { SwitchCommand } from './commands/switch';
 import { ValidateCommand } from './commands/validate';
+import { Help } from './help';
 
 const config = new Config();
 config.initialize();
@@ -54,6 +55,8 @@ switch (args.command) {
     case 'validate':
         commandExecutor = new ValidateCommand(config);
         break;
+    default:
+
 }
 
 if (commandExecutor !== undefined) {
@@ -61,6 +64,11 @@ if (commandExecutor !== undefined) {
         process.exit(1);
     }
     commandExecutor.execute(args);
+}
+else {
+    const help = new Help();
+    help.main();
+    process.exit(1);
 }
 
 config.saveConfig();
