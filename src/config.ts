@@ -61,6 +61,8 @@ export class Config {
             console.error(`Error: repo '${reponame}' not found`);
             process.exit(1);
         }
+        const repofile = this.getRepoFilename(reponame);
+        fs.unlinkSync(repofile);
         this.data.repos = this.data.repos.filter(item => item.name !== reponame);
     }
 
