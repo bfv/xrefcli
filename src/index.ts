@@ -6,6 +6,7 @@ import { Executable } from './executable';
 // commands
 import { AboutCommand } from './commands/about';
 import { InitCommand } from './commands/init';
+import { ListCommand } from './commands/list';
 import { ParseCommand } from './commands/parse';
 import { RemoveCommand } from './commands/remove';
 import { ReposCommand } from './commands/repos';
@@ -28,6 +29,9 @@ switch (args.command) {
         break;
     case 'init':
         commandExecutor = new InitCommand(config);
+        break;
+    case 'list':
+        commandExecutor = new ListCommand(config);
         break;
     case 'parse':
         commandExecutor = new ParseCommand(config);

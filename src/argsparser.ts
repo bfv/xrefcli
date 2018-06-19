@@ -44,6 +44,10 @@ export class ArgsParser {
                 optionDefs = this.initOptions(optionDefs);
                 break;
 
+            case 'list':
+                optionDefs = this.listOptions(optionDefs);
+                break;
+
             case 'parse':
                 optionDefs = this.parseOptions(optionDefs);
                 break;
@@ -81,6 +85,13 @@ export class ArgsParser {
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'dir', alias: 'd' });
         optionDefs.push({ name: 'srcdir', alias: 's' });
+        return optionDefs;
+    }
+
+    private listOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push({ name: 'tables', type: Boolean });
+        optionDefs.push({ name: 'dbprefix', type: Boolean });
+        optionDefs.push(this.jsonDefinition);
         return optionDefs;
     }
 
