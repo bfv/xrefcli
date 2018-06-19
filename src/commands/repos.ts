@@ -35,7 +35,7 @@ export class ReposCommand implements Executable {
         else {
             this.config.data.repos.forEach(repo => {
                 if (!verbose) {
-                    console.log(repo.name);
+                    console.log((repo.name === this.config.data.current ? '*' : '') + repo.name);
                 }
                 else {
                     console.log(`${repo.name}: dir=${repo.dir}` + (repo.srcdir !== undefined ? `, src=${repo.srcdir}` : ''));
