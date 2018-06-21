@@ -68,8 +68,22 @@ export class SearchCommand implements Executable {
         }
 
         this.field = options['field'];
+        if (this.field === null) {
+            console.error('Field name for --field option needs to be specified');
+            return false;
+        }
+
         this.table = options['table'];
+        if (this.table === null) {
+            console.error('Table name for --table option needs to be specified');
+            return false;
+        }
+
         this.db = options['db'];
+        if (this.db === null) {
+            console.error('Database name for --db option needs to be specified');
+            return false;
+        }
 
         this.hasCreates = this.parseCrudValue(<string>options['create']);
         this.hasUpdates = this.parseCrudValue(<string>options['update']);
@@ -90,7 +104,12 @@ export class SearchCommand implements Executable {
 
     private parseCrudValue(value: string): boolean | undefined {
 
-        if (value !== undefined && value !== null) {
+        if (value !== undefined) {
+            // the default value = true, so '--update' and '--update true' are the same
+            if (value === null) {
+                value = 'true';
+            }
+
             value = value.toLowerCase();
             if (value === 'true' || value === 'yes') {
                 return true;
