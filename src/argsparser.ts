@@ -113,6 +113,7 @@ export class ArgsParser {
     }
 
     private searchOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push(this.helpDefinition);
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'field', alias: 'f' });
         optionDefs.push({ name: 'table', alias: 't' });

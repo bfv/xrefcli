@@ -1,6 +1,7 @@
 import { Config } from '../config';
 import { Executable } from '../executable';
 import { Searcher, XrefFile } from 'xrefparser';
+import { Help } from '../help';
 
 export class SearchCommand implements Executable {
 
@@ -55,8 +56,14 @@ export class SearchCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
-        let reponame = options['name'];
 
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.searchCommand();
+            process.exit(0);
+        }
+
+        let reponame = options['name'];
         if (reponame === undefined) {
             if (this.config.data.current === undefined) {
                 console.error('Error: no repo specified, no current repo');

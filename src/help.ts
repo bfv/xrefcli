@@ -105,4 +105,43 @@ export class Help {
         const usage = this.commandLineUsage(this.sections);
         console.log(usage);
     }
+
+    searchCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - search command',
+                content: 'Search for field and table references in repo'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref search [ --field <fieldname>] [--table <tablename] [--db <dbname>] ' +
+                           '[--create [true | false] [--update [true | false]] [--delete [true | false]'
+            },
+            {
+                header: 'Options',
+                content: [
+                    '--field, -f      search for field references',
+                    '--table, -t      search for table references (can be combined with --field)',
+                    '--db             search for sources accessing <dbname>',
+                    '--create, -c     filter on whether the --table is created (default: true)',
+                    '--delete, -d     see --create, only for deletes',
+                    '--update, -u     filter on whether the --field is updated (default: true)',
+                    '--batch, -b      omit result count'
+                ]
+            },
+            {
+                header: 'Examples',
+                content: [
+                    'xref search --field custum --table customer --update',
+                    '  search for source which update customer.custnum field',
+                    ' ',
+                    'xref search --table order --create',
+                    '  search for sources which create customer records'
+                ]
+            }
+        ];
+
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
 }
