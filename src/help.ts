@@ -29,7 +29,7 @@ export class Help {
                     { name: 'search', summary: 'Searches a repo for field/table etc references' },
                     { name: 'show', summary: 'Shows info about a source file' },
                     { name: 'switch', summary: 'Switches the default repo' },
-                    { name: 'validate', summary: 'Runs some (crude) validations on the repo' }
+                    // { name: 'validate', summary: 'Runs some (crude) validations on the repo' },
                 ]
             },
             {
