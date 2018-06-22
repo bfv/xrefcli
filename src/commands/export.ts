@@ -10,17 +10,19 @@ export class ExportCommand implements Executable {
     private reponame = '';
     private outfile = '';
     private searcher: Searcher;
-    private xreffiles: XrefFile[];
+    private xreffiles: XrefFile[] = [];
     private includeEmpty = false;
 
     constructor(config: Config) {
         this.config = config;
         this.reponame = this.config.data.current;
-        this.xreffiles = this.config.loadRepo(this.config.data.current);
-        this.searcher = new Searcher(this.xreffiles);
+        this.searcher = new Searcher();
     }
 
     execute(params: any): Promise<void> {
+
+        this.xreffiles = this.config.loadRepo(this.reponame);
+        this.searcher.add(this.xreffiles);
 
         const promise = new Promise<void>((resolve, reject) => {
             this.outputSourceTable().then(() => {
@@ -39,6 +41,14 @@ export class ExportCommand implements Executable {
         if (reponame === null) {
             console.error('Error: a repo name should be provided');
             return false;
+        }
+        if (reponame !== undefined) {
+
+            if (!this.config.repoExists(reponame)) {
+                console.error(`Error: repo '${reponame}' does not exist`);
+                return false;
+            }
+            this.reponame = reponame;
         }
 
         const outfile = <string>options['outfile'];
@@ -66,7 +76,7 @@ export class ExportCommand implements Executable {
         tablenames.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
 
         const header = [' ', ...tablenames];
-        await this.writeLine(writeStream, header);
+        this.writeLine(writeStream, header);
 
         for (let x = 0; x < this.xreffiles.length; x++) {
 
