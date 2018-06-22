@@ -1,7 +1,7 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
 import * as http from 'http';
-import * as fs from 'fs';
+
 export class AboutCommand implements Executable {
 
     config: Config;
