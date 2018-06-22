@@ -40,6 +40,9 @@ export class ArgsParser {
 
         switch (mainOptions.command) {
 
+            case 'export':
+                optionDefs = this.exportOptions(optionDefs);
+                break;
             case 'init':
                 optionDefs = this.initOptions(optionDefs);
                 break;
@@ -81,6 +84,13 @@ export class ArgsParser {
         };
     }
 
+    private exportOptions (optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push(this.nameDefinition);
+        optionDefs.push({ name: 'outfile', alias: 'o' });
+        optionDefs.push({ name: 'includeempty', alias: 'i', type: Boolean });
+        return optionDefs;
+    }
+
     private initOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'dir', alias: 'd' });
@@ -89,8 +99,9 @@ export class ArgsParser {
     }
 
     private listOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
-        optionDefs.push({ name: 'tables', type: Boolean });
-        optionDefs.push({ name: 'dbprefix', type: Boolean });
+        optionDefs.push({ name: 'tables', alias: 't', type: Boolean });
+        optionDefs.push({ name: 'dbprefix', alias: 'p', type: Boolean });
+        optionDefs.push({ name: 'dbs', alias: 'd', type: Boolean});
         optionDefs.push(this.jsonDefinition);
         return optionDefs;
     }

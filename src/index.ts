@@ -15,6 +15,7 @@ import { ShowCommand } from './commands/show';
 import { SwitchCommand } from './commands/switch';
 import { ValidateCommand } from './commands/validate';
 import { Help } from './help';
+import { ExportCommand } from './commands/export';
 
 const config = new Config();
 config.initialize();
@@ -27,6 +28,9 @@ let commandExecutor: Executable | undefined;
 switch (args.command) {
     case 'about':
         commandExecutor = new AboutCommand(config);
+        break;
+    case 'export':
+        commandExecutor = new ExportCommand(config);
         break;
     case 'init':
         commandExecutor = new InitCommand(config);
@@ -73,7 +77,6 @@ else {
     help.main();
     process.exit(1);
 }
-
 
 async function execute(commandExec: Executable) {
     await commandExec.execute(args);
