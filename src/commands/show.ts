@@ -1,6 +1,7 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
 import * as fs from 'fs';
+import { Help } from '../help';
 
 export class ShowCommand implements Executable {
 
@@ -48,8 +49,14 @@ export class ShowCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
-        const source = <string>options['source'];
 
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.showCommand();
+            process.exit(0);
+        }
+
+        const source = <string>options['source'];
         if (source === undefined) {
             console.error('Error: a source name should be provided');
             return false;

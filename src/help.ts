@@ -222,4 +222,29 @@ export class Help {
         const usage = this.commandLineUsage(this.sections);
         console.log(usage);
     }
+
+    showCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - show command',
+                content: 'Displays meta information about sources'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref show <sourcefile> <options>'
+            },
+            {
+                header: 'Options',
+                content: [
+                    '--xref, -x      Show original .xref file',
+                    '--json          Output in JSON (not for --xref)',
+                    '--tables, -t    displays table used by <sourcefile>'
+                ]
+            }
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
+
+
 }
