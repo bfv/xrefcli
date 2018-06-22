@@ -6,19 +6,80 @@ import { XrefFile, Searcher } from 'xrefparser';
 export class ListCommand implements Executable {
 
     private config: Config;
+
+    private xreffiles: XrefFile[] = [];
+    private searcher: Searcher;
+
     private outputJson = false;
     private dbPrefix = false;
+    private outputType: 'tables' | 'dbs' = 'tables';
 
     constructor(config: Config) {
         this.config = config;
+        this.searcher = new Searcher();
     }
 
     execute(params: any): void {
 
-        const xreffiles = this.config.loadRepo(this.config.data.current);
-        const searcher = new Searcher(xreffiles);
+        this.xreffiles = this.config.loadRepo(this.config.data.current);
+        this.searcher.add(this.xreffiles);
 
-        const tables = searcher.getTableNames();
+        switch (this.outputType) {
+
+            case 'tables':
+                this.outputTables();
+                break;
+            case 'dbs':
+                this.outputDatabases();
+                break;
+        }
+
+    }
+
+    validate(params: any) {
+
+        const options = params['options'];
+
+        if (<boolean>options['tables'] === true && <boolean>options['dbs'] === true) {
+            console.error('--tables and --dbs options cannot be combined');
+            return false;
+        }
+
+        if (<boolean>options['dbs'] === true) {
+            this.outputType = 'dbs';
+        }
+        else {
+            // no processing of tables parameters now, it's the only (and therefor default) option
+            if (<boolean>options['dbprefix'] === true) {
+                this.dbPrefix = true;
+            }
+        }
+
+        if (<boolean>options['json'] === true) {
+            this.outputJson = true;
+        }
+
+        return true;
+    }
+
+    private outputDatabases() {
+
+        let dbs = this.searcher.getDatabaseNames();
+        dbs = dbs.sort((a, b) => a < b ? -1 : 1);
+
+        if (this.outputJson) {
+            console.log(JSON.stringify(dbs, undefined, 2));
+        }
+        else {
+            dbs.forEach(db => {
+                console.log(db);
+            });
+        }
+    }
+
+    private outputTables() {
+
+        const tables = this.searcher.getTableNames();
 
         if (this.outputJson) {
             console.log(JSON.stringify(tables, undefined, 2));
@@ -40,22 +101,6 @@ export class ListCommand implements Executable {
                 });
             }
         }
+
     }
-
-    validate(params: any) {
-
-        const options = params['options'];
-
-        // no processing of tables parameters now, it's the only (and therefor default) option
-        if (<boolean>options['dbprefix'] === true) {
-            this.dbPrefix = true;
-        }
-
-        if (<boolean>options['json'] === true) {
-            this.outputJson = true;
-        }
-
-        return true;
-    }
-
 }
