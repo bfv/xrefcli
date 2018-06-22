@@ -1,33 +1,41 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
+import { Help } from '../help';
 
 export class SwitchCommand implements Executable {
 
-    config: Config;
+    private config: Config;
+    private reponame = '';
 
     constructor(config: Config) {
         this.config = config;
     }
 
-    execute(params: any): void {
-        const name = <string>params['options']['name'];
-
-        if (name !== undefined) {
-            if (this.config.repoExists(name)) {
-                this.config.data.current = name;
-                console.log(name);
-            }
-            else {
-                console.error(`Error: repo ${name} doesn't not exist`);
-                process.exit(1);
-            }
-        }
-        else {
-            console.log(this.config.data.current);
-        }
+    execute(params: any) {
+        this.config.data.current = this.reponame;
+        console.log(this.reponame);
     }
 
     validate(params: any) {
+
+        const options = params['options'];
+
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.switchCommand();
+            process.exit(0);
+        }
+
+        const name = <string>options['name'];
+
+        if (name !== undefined) {
+            if (!this.config.repoExists(name)) {
+                console.error(`Error: repo ${name} doesn't not exist`);
+                return false;
+            }
+        }
+        this.reponame = name;
+
         return true;
     }
 }

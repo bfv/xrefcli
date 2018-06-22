@@ -246,5 +246,19 @@ export class Help {
         console.log(usage);
     }
 
+    switchCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - switch command',
+                content: 'Set default repo'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref switch [--name] <reponame>'
+            }
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
 
 }
