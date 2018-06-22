@@ -21,6 +21,7 @@ export class Help {
                 header: 'Commands',
                 content: [
                     { name: 'about', summary: 'Displays information about version/author etc ' },
+                    { name: 'export', summary: 'Exports source/table usage to CSV'},
                     { name: 'init', summary: 'Initializes repo' },
                     { name: 'parse', summary: 'Parses .xref files of repo' },
                     { name: 'remove', summary: 'Removes a repo' },
@@ -29,6 +30,36 @@ export class Help {
                     { name: 'show', summary: 'Shows info about a source file' },
                     { name: 'switch', summary: 'Switches the default repo' },
                     { name: 'validate', summary: 'Runs some (crude) validations on the repo' }
+                ]
+            },
+            {
+                header: 'Standard options',
+                content: [
+                    '--help, -h    Displays help, use xref <command> --help for help on command',
+                    '--name, -n    Specify repo name, valid for all but about, list, repo and show'
+                ]
+            }
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
+
+    exportCommand() {
+
+        this.sections = [
+            {
+                header: 'XREFCLI - export command',
+                content: 'Export CSV data on source/table usage'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref export --outfile <filename> <options>'
+            },
+            {
+                header: 'Options',
+                content: [
+                    '--outfile, -o         File for output',
+                    '--includeempty, -i    Include source w/o db references'
                 ]
             }
         ];
@@ -57,7 +88,6 @@ export class Help {
         ];
         const usage = this.commandLineUsage(this.sections);
         console.log(usage);
-
     }
 
     listCommand() {

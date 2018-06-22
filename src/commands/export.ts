@@ -3,6 +3,7 @@ import { Config } from '../config';
 import { Searcher, XrefFile } from 'xrefparser';
 import * as fs from 'fs';
 import { WriteStream } from 'fs';
+import { Help } from '../help';
 
 export class ExportCommand implements Executable {
 
@@ -36,6 +37,12 @@ export class ExportCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
+
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.exportCommand();
+            process.exit(0);
+        }
 
         const reponame = <string>options['name'];
         if (reponame === null) {
