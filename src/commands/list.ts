@@ -1,6 +1,7 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
 import { XrefFile, Searcher } from 'xrefparser';
+import { Help } from '../help';
 
 
 export class ListCommand implements Executable {
@@ -39,6 +40,12 @@ export class ListCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
+
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.listCommand();
+            process.exit(0);
+        }
 
         if (<boolean>options['tables'] === true && <boolean>options['dbs'] === true) {
             console.error('--tables and --dbs options cannot be combined');
