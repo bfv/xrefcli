@@ -1,5 +1,6 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
+import { Help } from '../help';
 
 export class RemoveCommand implements Executable {
 
@@ -20,8 +21,14 @@ export class RemoveCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
-        const reponame = <string> options['name'];
 
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.removeCommand();
+            process.exit(0);
+        }
+
+        const reponame = <string> options['name'];
         if (reponame === undefined) {
             console.error('Error: a repo name should be provided');
             return false;

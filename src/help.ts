@@ -139,7 +139,23 @@ export class Help {
             },
             {
                 header: 'Synopsis',
-                content: 'xref parse [--name]'
+                content: 'xref parse [--name <reponame>]'
+            }
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
+
+
+    removeCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - remove command',
+                content: 'Deletes repo from disk'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref remove --name <reponame>'
             }
         ];
         const usage = this.commandLineUsage(this.sections);
