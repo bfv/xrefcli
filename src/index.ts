@@ -63,7 +63,10 @@ if (commandExecutor !== undefined) {
     if (!commandExecutor.validate(args)) {
         process.exit(1);
     }
-    commandExecutor.execute(args);
+    execute(commandExecutor).then(() => {
+        config.saveConfig();
+        process.exit(0);
+    });
 }
 else {
     const help = new Help();
@@ -71,5 +74,7 @@ else {
     process.exit(1);
 }
 
-config.saveConfig();
-process.exit(0);
+
+async function execute(commandExec: Executable) {
+    await commandExec.execute(args);
+}
