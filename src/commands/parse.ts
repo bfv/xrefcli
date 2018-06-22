@@ -3,6 +3,7 @@ import { Config } from '../config';
 import { Repo } from '../repo';
 import { Parser } from 'xrefparser';
 import * as fs from 'fs';
+import { Help } from '../help';
 
 export class ParseCommand implements Executable {
 
@@ -32,8 +33,14 @@ export class ParseCommand implements Executable {
     validate(params: any) {
 
         const options = params['options'];
-        let reponame = options['name'];
 
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.parseCommand();
+            process.exit(0);
+        }
+
+        let reponame = options['name'];
         if (reponame === undefined) {
             if (this.config.data.current === undefined) {
                 console.error('Error: no repo specified, no current repo');

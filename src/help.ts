@@ -131,6 +131,21 @@ export class Help {
         console.log(usage);
     }
 
+    parseCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - parse command',
+                content: 'Parses .xref files from disk'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref parse [--name]'
+            }
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
+
     reposCommand() {
         this.sections = [
             {
