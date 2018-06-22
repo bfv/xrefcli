@@ -21,7 +21,7 @@ export class Help {
                 header: 'Commands',
                 content: [
                     { name: 'about', summary: 'Displays information about version/author etc ' },
-                    { name: 'export', summary: 'Exports source/table usage to CSV'},
+                    { name: 'export', summary: 'Exports source/table usage to CSV' },
                     { name: 'init', summary: 'Initializes repo' },
                     { name: 'parse', summary: 'Parses .xref files of repo' },
                     { name: 'remove', summary: 'Removes a repo' },
@@ -38,6 +38,21 @@ export class Help {
                     '--help, -h    Displays help, use xref <command> --help for help on command',
                     '--name, -n    Specify repo name, valid for all but about, list, repo and show'
                 ]
+            }
+        ];
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
+
+    aboutCommand() {
+        this.sections = [
+            {
+                header: 'XREFCLI - about command',
+                content: 'Display about on XREFCLI'
+            },
+            {
+                header: 'Synopsis',
+                content: 'xref about'
             }
         ];
         const usage = this.commandLineUsage(this.sections);
@@ -147,7 +162,7 @@ export class Help {
             {
                 header: 'Synopsis',
                 content: 'xref search [ --field <fieldname>] [--table <tablename] [--db <dbname>] ' +
-                           '[--create [true | false] [--update [true | false]] [--delete [true | false]'
+                    '[--create [true | false] [--update [true | false]] [--delete [true | false]'
             },
             {
                 header: 'Options',

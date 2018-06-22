@@ -1,6 +1,7 @@
 import { Config } from './../config';
 import { Executable } from './../executable';
 import * as http from 'http';
+import { Help } from '../help';
 
 export class AboutCommand implements Executable {
 
@@ -61,6 +62,15 @@ export class AboutCommand implements Executable {
     }
 
     validate(params: any) {
+
+        const options = params['options'];
+
+        if (<boolean>options['help'] === true) {
+            const help = new Help();
+            help.aboutCommand();
+            process.exit(0);
+        }
+
         return true;
     }
 
