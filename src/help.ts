@@ -65,17 +65,19 @@ export class Help {
         this.sections = [
             {
                 header: 'XREFCLI - list command',
-                content: 'List tables in repo'
+                content: 'List tables/databases in repo'
             },
             {
                 header: 'Synopsis',
-                content: 'xref list [--dbprefix | --json]'
+                content: 'xref list [ [--tables] | [--dbs] ] [--json]'
             },
             {
                 header: 'Options',
                 content: [
-                    '--dbprefix    Indicates if output of table names should be prefixed with database name',
-                    '--json        Output in JSON format, disregards the --dbprefix setting'
+                    '--tables, t       (default) display all tables used',
+                    '--dbprefix, -p    Indicates if output of table names should be prefixed with database name',
+                    '--dbs, -d         List all used databases (aliases)',
+                    '--json            Output in JSON format, disregards the --dbprefix setting'
                 ]
             }
         ];
