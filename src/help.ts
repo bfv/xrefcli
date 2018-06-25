@@ -255,7 +255,13 @@ export class Help {
             },
             {
                 header: 'Synopsis',
-                content: 'xref switch [--name] <reponame>'
+                content: 'xref switch [ [--name] <reponame> ]'
+            },
+            {
+                header: 'Options',
+                content: [
+                    'Without options the name of the current repo is returned.'
+                ]
             }
         ];
         const usage = this.commandLineUsage(this.sections);

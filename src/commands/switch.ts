@@ -12,8 +12,10 @@ export class SwitchCommand implements Executable {
     }
 
     execute(params: any) {
-        this.config.data.current = this.reponame;
-        console.log(this.reponame);
+        if (this.reponame !== undefined) {
+            this.config.data.current = this.reponame;
+        }
+        console.log(this.config.data.current);
     }
 
     validate(params: any) {
