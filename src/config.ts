@@ -38,14 +38,14 @@ export class Config {
 
         let config = new ConfigData();
         if (fs.existsSync(this.configFile)) {
-            config = require(this.configFile);
+            config = Object.assign(new ConfigData(), require(this.configFile));
         }
 
         return config;
     }
 
     saveConfig() {
-        fs.writeFileSync(this.configFile, JSON.stringify(this.data, null, 4));
+        fs.writeFileSync(this.configFile, JSON.stringify(this.data, null, 2));
     }
 
     addRepo(repo: Repo): void {
@@ -97,7 +97,6 @@ export class Config {
 
 export class ConfigData {
     current = '';
+    editor: { executable: string, open: string } = { executable: 'code', open: '--goto %s' };
     repos: Repo[] = [];
 }
-
-
