@@ -25,7 +25,7 @@ export class SearchCommand implements Executable {
         this.config = config;
     }
 
-    async execute(params: any) {
+    execute(params: any) {
 
         const xreffiles = this.config.loadRepo(this.reponame);
         const searcher = new Searcher(xreffiles);
@@ -43,7 +43,7 @@ export class SearchCommand implements Executable {
 
         if (this.openSources) {
             const editor = new Editor(this.config);
-            await editor.open(result.map(item => item.sourcefile));
+            editor.open(result.map(item => item.sourcefile));
         }
         else {
             if (this.jsonOutput) {
