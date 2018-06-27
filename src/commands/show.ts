@@ -2,6 +2,8 @@ import { Config } from './../config';
 import { Executable } from './../executable';
 import * as fs from 'fs';
 import { Help } from '../help';
+import { Editor } from '../editor';
+import { XrefFile } from 'xrefparser';
 
 export class ShowCommand implements Executable {
 
@@ -10,6 +12,7 @@ export class ShowCommand implements Executable {
     tables = false;
     jsonOutput = false;
     xrefOutput = false;
+    openFile = false;
 
     constructor(config: Config) {
         this.config = config;
@@ -25,24 +28,11 @@ export class ShowCommand implements Executable {
             return;
         }
 
-        if (this.xrefOutput) {
-            const content = fs.readFileSync(xreffile.xreffile);
-            console.log(content.toString());
+        if (this.openFile) {
+            this.openEditor(xreffile);
         }
         else {
-            if (!this.tables) {
-                console.log(JSON.stringify(xreffile, undefined, 2));
-            }
-            else {
-                if (this.jsonOutput) {
-                    console.log(JSON.stringify(xreffile.tablenames, undefined, 2));
-                }
-                else {
-                    xreffile.tablenames.forEach(table => {
-                        console.log(table);
-                    });
-                }
-            }
+            this.generateOutput(xreffile);
         }
     }
 
@@ -77,7 +67,45 @@ export class ShowCommand implements Executable {
             this.xrefOutput = true;
         }
 
+        if ((<boolean>options['open']) === true) {
+            this.openFile = true;
+        }
+
         return true;
+    }
+
+    private openEditor(xreffile: XrefFile) {
+        const editor = new Editor(this.config);
+        if (this.xrefOutput) {
+            editor.open( [ xreffile.xreffile ] );
+        }
+        else {
+            editor.openContent(JSON.stringify(xreffile, undefined, 2));
+        }
+    }
+
+    private generateOutput(xreffile: XrefFile) {
+
+        if (this.xrefOutput) {
+            const content = fs.readFileSync(xreffile.xreffile);
+            console.log(content.toString());
+        }
+        else {
+            if (!this.tables) {
+                console.log(JSON.stringify(xreffile, undefined, 2));
+            }
+            else {
+                if (this.jsonOutput) {
+                    console.log(JSON.stringify(xreffile.tablenames, undefined, 2));
+                }
+                else {
+                    xreffile.tablenames.forEach(table => {
+                        console.log(table);
+                    });
+                }
+            }
+        }
+
     }
 
 }

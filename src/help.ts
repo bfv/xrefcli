@@ -249,7 +249,8 @@ export class Help {
                 content: [
                     '--xref, -x      Show original .xref file',
                     '--json          Output in JSON (not for --xref)',
-                    '--tables, -t    displays table used by <sourcefile>'
+                    '--tables, -t    Displays table used by <sourcefile>',
+                    '--open, -o      Opens either meta info or xref in editor, overwrites --tables'
                 ]
             }
         ];

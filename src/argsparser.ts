@@ -144,6 +144,7 @@ export class ArgsParser {
         optionDefs.push({ name: 'tables', alias: 't', type: Boolean });
         optionDefs.push(this.jsonDefinition);
         optionDefs.push({ name: 'xref', alias: 'x', type: Boolean });
+        optionDefs.push({ name: 'open', alias: 'o', type: Boolean });
         return optionDefs;
     }
 

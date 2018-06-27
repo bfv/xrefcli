@@ -1,4 +1,4 @@
-import { Config } from './config';
+import { Config, EditorConfig } from './config';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
@@ -13,14 +13,7 @@ export class Editor {
     open(files: string[]) {
 
         const editconfig = this.config.data.editor;
-        if (editconfig === undefined || !editconfig.executable || !editconfig.open) {
-            console.error('editor not configured');
-            if (editconfig && !editconfig.executable) {
-                console.error('  set "executable" property');
-            }
-            if (editconfig && !editconfig.open) {
-                console.error('  set "open" property');
-            }
+        if (!this.validateConfig(editconfig) || editconfig === undefined) {
             return;
         }
 
@@ -38,19 +31,34 @@ export class Editor {
             return;
         }
 
-        params = params.replace('%s', files.join(' '));
-        if (repo.srcroot !== undefined) {
-            params = params.replace('%r', repo.srcroot);
+        if (params) {  // not really necessary, but the compiler thinks so
+
+            params = params.replace('%s', files.join(' '));
+            if (repo.srcroot !== undefined) {
+                params = params.replace('%r', repo.srcroot);
+            }
+
+            const executeString = `${editor} ${params}`;
+
+            try {
+                const child = execSync(executeString);
+            }
+            catch (err) {
+                // hide further errors
+            }
+        }
+    }
+
+    openContent(content: string) {
+
+        const editconfig = this.config.data.editor;
+        if (!this.validateConfig(editconfig) || editconfig === undefined) {
+            return;
         }
 
-        const executeString = `${editor} ${params}`;
+        const filename = this.config.writeTmpFile(content, '.json');
 
-        try {
-            const child = execSync(executeString);
-        }
-        catch (err) {
-            // hide further errors
-        }
+        execSync(`"${editconfig.executable}" --new-window ${filename}`);
     }
 
     private validateFiles(files: string[]): boolean {
@@ -64,5 +72,20 @@ export class Editor {
         });
 
         return validationOk;
+    }
+
+    private validateConfig(editconfig: EditorConfig | undefined): boolean {
+
+        if (editconfig === undefined || !editconfig.executable || !editconfig.open) {
+            console.error('editor not configured');
+            if (editconfig && !editconfig.executable) {
+                console.error('  set "executable" property');
+            }
+            if (editconfig && !editconfig.open) {
+                console.error('  set "open" property');
+            }
+            return false;
+        }
+        return true;
     }
 }

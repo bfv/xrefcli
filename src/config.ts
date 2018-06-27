@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { Repo } from './repo';
 import { XrefFile} from 'xrefparser';
+import * as tmp from 'tmp';
 
 export class Config {
 
@@ -11,6 +12,7 @@ export class Config {
     private configRootDir = '';
     private reposDir = '';
     private configFile = '';
+    private tmpDir = '';
 
     initialize() {
         this.checkDirs();
@@ -22,6 +24,7 @@ export class Config {
         const userDir = require('os').homedir();
         this.configRootDir = userDir + path.sep + '.xrefcli';
         this.reposDir = this.configRootDir + path.sep + 'repos';
+        this.tmpDir = this.configRootDir + path.sep + 'tmp';
 
         if (!fs.existsSync(this.configRootDir)) {
             fs.mkdirSync(this.configRootDir);
@@ -29,6 +32,10 @@ export class Config {
 
         if (!fs.existsSync(this.reposDir)) {
             fs.mkdirSync(this.reposDir);
+        }
+
+        if (!fs.existsSync(this.tmpDir)) {
+            fs.mkdirSync(this.tmpDir);
         }
     }
 
@@ -97,6 +104,19 @@ export class Config {
         const repofile = this.getRepoFilename(reponame);
         const xreffile = require(repofile);
         return xreffile;
+    }
+
+
+    writeTmpFile(content: string, postfix = '.tmp'): string {
+
+        const tmpFilename = tmp.tmpNameSync({
+            dir: this.tmpDir,
+            postfix: postfix
+        });
+
+        fs.writeFileSync(tmpFilename, content);
+
+        return tmpFilename;
     }
 }
 

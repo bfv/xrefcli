@@ -21,7 +21,7 @@ Beneath a setup for Visual Studio Code:
     "open": "%r --new-window --goto %s "
   },
 ```
-This fragment should be setup in .xrefcli/xrefconfig.json which is located on either `%USERPROFILE%` (win), `$HOME` (linux) or something similar for Mac.
+This fragment should be setup in .xrefcli/xrefconfig.json which is located on either `%USERPROFILE%` (win), `$HOME` (linux, macos).
 The `%r` is placeholder for `srcroot` of the repository, `%s` is placed by a blank delimited list of files returned by the `search` command prefixed by the `srcroot` directory. `srcroot` is specified along with the `init` command.
 
 ## disclaimer
