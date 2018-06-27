@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.1.0
+- added `--open` option to `show` command
+
 ## 2.0.1
 - added release notes
 - added validation for opening editor
