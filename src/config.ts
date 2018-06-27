@@ -78,7 +78,12 @@ export class Config {
         return true;
     }
 
-    getRepo(reponame: string): Repo {
+    getRepo(reponame = ''): Repo {
+
+        if (reponame === '') {
+            reponame = this.data.current;
+        }
+
         const repo = this.data.repos.filter(item => item.name === reponame.toLowerCase())[0];
         return repo;
     }
@@ -97,6 +102,6 @@ export class Config {
 
 export class ConfigData {
     current = '';
-    editor: { executable: string, open: string } = { executable: 'code', open: '--goto %s' };
+    editor: { name: string, executable: string, open: string } = { name: 'vscode', executable: 'code', open: '--goto %s' };
     repos: Repo[] = [];
 }

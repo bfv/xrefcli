@@ -95,6 +95,7 @@ export class ArgsParser {
         optionDefs.push(this.nameDefinition);
         optionDefs.push({ name: 'dir', alias: 'd' });
         optionDefs.push({ name: 'srcdir', alias: 's' });
+        optionDefs.push({ name: 'srcroot', alias: 'r' });
         return optionDefs;
     }
 
@@ -134,6 +135,7 @@ export class ArgsParser {
         optionDefs.push({ name: 'delete', alias: 'd' });
         optionDefs.push(this.jsonDefinition);
         optionDefs.push({ name: 'batch', alias: 'b', type: Boolean });  // batch, no count in results
+        optionDefs.push({ name: 'open', alias: 'o', type: Boolean });
         return optionDefs;
     }
 

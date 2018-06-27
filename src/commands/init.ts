@@ -56,10 +56,13 @@ export class InitCommand implements Executable {
         }
 
         const srcdir = options['srcdir'];
+        const srcroot = options['srcroot'];
+
         this.repo = {
             name: name.toLowerCase(),
             dir: dir,
-            srcdir: srcdir
+            srcdir: srcdir,
+            srcroot: srcroot
         };
 
         return true;

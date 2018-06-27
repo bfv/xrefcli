@@ -39,6 +39,15 @@ export class Help {
                     '--help, -h    Displays help, use xref <command> --help for help on command',
                     '--name, -n    Specify repo name, valid for all but about, list, repo and show'
                 ]
+            },
+            {
+                header: 'Configuration',
+                content: [
+                    'The setup for being able to open files after searching see:',
+                    'https://www.npmjs.com/package/xrefcli',
+                    'or',
+                    'https://github.com/bfv/xrefcli'
+                ]
             }
         ];
         const usage = this.commandLineUsage(this.sections);
@@ -97,8 +106,9 @@ export class Help {
             {
                 header: 'Options',
                 content: [
-                    '--dir, -d       Directory containing OE .xref files',
-                    '--srcdir, -s    Directory name to be removed from all source references'
+                    '--dir, -d        Directory containing OE .xref files',
+                    '--srcdir, -s     Directory name to be removed from all source references',
+                    '--srcroot, -r    Location of the actual sources (for opening)'
                 ]
             }
         ];

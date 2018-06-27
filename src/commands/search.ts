@@ -2,6 +2,7 @@ import { Config } from '../config';
 import { Executable } from '../executable';
 import { Searcher, XrefFile } from 'xrefparser';
 import { Help } from '../help';
+import { Editor } from '../editor';
 
 export class SearchCommand implements Executable {
 
@@ -17,13 +18,14 @@ export class SearchCommand implements Executable {
     private hasUpdates?: boolean;
     private hasDeletes?: boolean;
     private batch = false;
+    private openSources = false;
     private jsonOutput = false;
 
     constructor(config: Config) {
         this.config = config;
     }
 
-    execute(params: any) {
+    async execute(params: any) {
 
         const xreffiles = this.config.loadRepo(this.reponame);
         const searcher = new Searcher(xreffiles);
@@ -39,17 +41,23 @@ export class SearchCommand implements Executable {
             result = searcher.getDatabaseReferences(this.db);
         }
 
-        if (this.jsonOutput) {
-            console.log(JSON.stringify(result.map(item => item.sourcefile), undefined, 2));
+        if (this.openSources) {
+            const editor = new Editor(this.config);
+            await editor.open(result.map(item => item.sourcefile));
         }
         else {
-            result.map(item => item.sourcefile).forEach(source => {
-                console.log(source);
-            });
-        }
+            if (this.jsonOutput) {
+                console.log(JSON.stringify(result.map(item => item.sourcefile), undefined, 2));
+            }
+            else {
+                result.map(item => item.sourcefile).forEach(source => {
+                    console.log(source);
+                });
+            }
 
-        if (!this.batch) {
-            console.log('count=', result.length);
+            if (!this.batch) {
+                console.log('count=', result.length);
+            }
         }
     }
 
@@ -98,6 +106,10 @@ export class SearchCommand implements Executable {
 
         if ((<boolean>options['batch']) === true) {
             this.batch = true;
+        }
+
+        if ((<boolean>options['open']) === true) {
+            this.openSources = true;
         }
 
         if ((<boolean>options['json']) === true) {
