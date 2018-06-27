@@ -102,6 +102,12 @@ export class Config {
 
 export class ConfigData {
     current = '';
-    editor: { name: string, executable: string, open: string } = { name: 'vscode', executable: 'code', open: '--goto %s' };
+    editor?: EditorConfig = {};
     repos: Repo[] = [];
+}
+
+export class EditorConfig {
+    name?: string;
+    executable?: string;
+    open?: string;
 }

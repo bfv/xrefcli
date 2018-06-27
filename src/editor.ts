@@ -12,8 +12,20 @@ export class Editor {
 
     open(files: string[]) {
 
-        const editor = '\"' + this.config.data.editor.executable + '\"';
-        let params = this.config.data.editor.open;
+        const editconfig = this.config.data.editor;
+        if (editconfig === undefined || !editconfig.executable || !editconfig.open) {
+            console.error('editor not configured');
+            if (editconfig && !editconfig.executable) {
+                console.error('  set "executable" property');
+            }
+            if (editconfig && !editconfig.open) {
+                console.error('  set "open" property');
+            }
+            return;
+        }
+
+        const editor = '\"' + editconfig.executable + '\"';
+        let params = editconfig.open;
 
         // add source root to files
         const repo = this.config.getRepo();
