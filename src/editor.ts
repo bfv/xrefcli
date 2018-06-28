@@ -17,7 +17,7 @@ export class Editor {
             return;
         }
 
-        const editor = '\"' + editconfig.executable + '\"';
+
 
         // add source root to files
         const repo = this.config.getRepo();
@@ -37,11 +37,10 @@ export class Editor {
             params = params.replace('%r', repo.srcroot);
         }
 
-        const executeString = `${editor} ${params}`;
-
         try {
             if (editconfig.type === 'cli') {
-                const child = child_process.spawnSync(executeString, {
+                const editor = editconfig.executable || '';
+                const child = child_process.spawnSync(editor, [params], {
                     stdio: 'inherit'
                 });
                 if (child.error) {
@@ -49,6 +48,8 @@ export class Editor {
                 }
             }
             else {
+                const editor = '\"' + editconfig.executable + '\"';
+                const executeString = `${editor} ${params}`;
                 const child = child_process.execSync(executeString);
             }
 
@@ -70,7 +71,7 @@ export class Editor {
 
         let params = editconfig.open || '%s';
         params = params.replace('%r', '');
-        params = params.replace('%s', '${filename}');
+        params = params.replace('%s', `${filename}`);
 
         if (editconfig.type === 'cli') {
 
