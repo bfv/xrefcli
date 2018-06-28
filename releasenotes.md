@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.2.0
+- added CLI support for viewing files in CLI
+
 ## 2.1.1
 - removed vscode specific constructs
 
