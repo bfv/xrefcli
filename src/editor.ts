@@ -18,7 +18,6 @@ export class Editor {
         }
 
         const editor = '\"' + editconfig.executable + '\"';
-        let params = editconfig.open;
 
         // add source root to files
         const repo = this.config.getRepo();
@@ -31,22 +30,22 @@ export class Editor {
             return;
         }
 
-        if (params) {  // not really necessary, but the compiler thinks so
+        let params = editconfig.open || '%s';
+        params = params.replace('%s', files.join(' '));
 
-            params = params.replace('%s', files.join(' '));
-            if (repo.srcroot !== undefined) {
-                params = params.replace('%r', repo.srcroot);
-            }
-
-            const executeString = `${editor} ${params}`;
-
-            try {
-                const child = execSync(executeString);
-            }
-            catch (err) {
-                // hide further errors
-            }
+        if (repo.srcroot !== undefined) {
+            params = params.replace('%r', repo.srcroot);
         }
+
+        const executeString = `${editor} ${params}`;
+
+        try {
+            const child = execSync(executeString);
+        }
+        catch (err) {
+            // hide further errors
+        }
+
     }
 
     openContent(content: string) {
@@ -58,7 +57,11 @@ export class Editor {
 
         const filename = this.config.writeTmpFile(content, '.json');
 
-        execSync(`"${editconfig.executable}" --new-window ${filename}`);
+        let params = editconfig.open || '%s';
+        params = params.replace('%r', '');
+        params = params.replace('%s', '${filename}');
+
+        execSync(`"${editconfig.executable}" ${params}`);
     }
 
     private validateFiles(files: string[]): boolean {
