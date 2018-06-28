@@ -40,7 +40,18 @@ export class Editor {
         const executeString = `${editor} ${params}`;
 
         try {
-            const child = child_process.execSync(executeString);
+            if (editconfig.type === 'cli') {
+                const child = child_process.spawnSync(executeString, {
+                    stdio: 'inherit'
+                });
+                if (child.error) {
+                    console.log(child.error);
+                }
+            }
+            else {
+                const child = child_process.execSync(executeString);
+            }
+
         }
         catch (err) {
             // hide further errors
@@ -61,7 +72,7 @@ export class Editor {
         params = params.replace('%r', '');
         params = params.replace('%s', '${filename}');
 
-        if (editconfig.name === 'bash') {
+        if (editconfig.type === 'cli') {
 
             const child = child_process.spawnSync(editconfig.executable || 'view', [filename], {
                 stdio: 'inherit'

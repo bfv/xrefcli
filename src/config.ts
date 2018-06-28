@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { Repo } from './repo';
 import { XrefFile} from 'xrefparser';
 import * as tmp from 'tmp';
+import { exec } from 'child_process';
 
 export class Config {
 
@@ -48,7 +49,39 @@ export class Config {
             config = Object.assign(new ConfigData(), require(this.configFile));
         }
 
+        if (!this.validateConfig(config)) {
+            process.exit(1);
+        }
+
         return config;
+    }
+
+    private validateConfig(config: ConfigData): boolean {
+
+        let validationOk = true;
+        if (config.editor) {
+            // if the editor's name is filled, validation takes place
+            if (config.editor.name) {
+
+                const type = config.editor.type;
+                if (type !== 'gui' && type !== 'cli') {
+                    console.error('xrefconfig.json: editor "type" must be either "gui" or "cli"');
+                    validationOk = false;
+                }
+
+                const executable = config.editor.executable;
+                if (!executable) {
+                    console.error('xrefconfig.json: editor "executable" must be specified');
+                    validationOk = false;
+                }
+
+                if (!config.editor.open) {
+                    config.editor.open = '%s';
+                }
+            }
+        }
+
+        return validationOk;
     }
 
     saveConfig() {
@@ -106,7 +139,6 @@ export class Config {
         return xreffile;
     }
 
-
     writeTmpFile(content: string, postfix = '.tmp'): string {
 
         const tmpFilename = tmp.tmpNameSync({
@@ -128,6 +160,7 @@ export class ConfigData {
 
 export class EditorConfig {
     name?: string;
+    type?: 'gui' | 'cli';
     executable?: string;
     open?: string;
 }
