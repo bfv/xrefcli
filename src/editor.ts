@@ -1,5 +1,5 @@
 import { Config, EditorConfig } from './config';
-import { execSync } from 'child_process';
+import * as child_process from 'child_process';
 import * as fs from 'fs';
 
 export class Editor {
@@ -40,7 +40,7 @@ export class Editor {
         const executeString = `${editor} ${params}`;
 
         try {
-            const child = execSync(executeString);
+            const child = child_process.execSync(executeString);
         }
         catch (err) {
             // hide further errors
@@ -61,8 +61,21 @@ export class Editor {
         params = params.replace('%r', '');
         params = params.replace('%s', '${filename}');
 
-        execSync(`"${editconfig.executable}" ${params}`);
+        if (editconfig.name === 'bash') {
+
+            const child = child_process.spawnSync(editconfig.executable || 'view', [filename], {
+                stdio: 'inherit'
+            });
+            if (child.error) {
+                console.log(child.error);
+            }
+
+        }
+        else {
+            child_process.execSync(`"${editconfig.executable}" ${params}`);
+        }
     }
+
 
     private validateFiles(files: string[]): boolean {
 
