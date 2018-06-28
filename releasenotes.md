@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.1.1
+- removed vscode specific constructs
+
 ## 2.1.0
 - added `--open` option to `show` command
 
