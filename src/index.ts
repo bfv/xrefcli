@@ -16,68 +16,76 @@ import { SwitchCommand } from './commands/switch';
 import { ValidateCommand } from './commands/validate';
 import { Help } from './help';
 import { ExportCommand } from './commands/export';
-
-const config = new Config();
-config.initialize();
+import { CliArgs } from './types';
 
 const argsParser = new ArgsParser();
-const args = argsParser.parse();
+const argv = argsParser.parse();
 
-let commandExecutor: Executable | undefined;
+const config = new Config();
+config.initialize(argv).then(() => {
+    executeCommand(argv);
+}, err => {
+    process.exit(1);
+});
 
-switch (args.command) {
-    case 'about':
-        commandExecutor = new AboutCommand(config);
-        break;
-    case 'export':
-        commandExecutor = new ExportCommand(config);
-        break;
-    case 'init':
-        commandExecutor = new InitCommand(config);
-        break;
-    case 'list':
-        commandExecutor = new ListCommand(config);
-        break;
-    case 'parse':
-        commandExecutor = new ParseCommand(config);
-        break;
-    case 'remove':
-        commandExecutor = new RemoveCommand(config);
-        break;
+function executeCommand(args: CliArgs) {
+
+    let commandExecutor: Executable | undefined;
+
+    switch (args.command) {
+        case 'about':
+            commandExecutor = new AboutCommand(config);
+            break;
+        case 'export':
+            commandExecutor = new ExportCommand(config);
+            break;
+        case 'init':
+            commandExecutor = new InitCommand(config);
+            break;
+        case 'list':
+            commandExecutor = new ListCommand(config);
+            break;
+        case 'parse':
+            commandExecutor = new ParseCommand(config);
+            break;
+        case 'remove':
+            commandExecutor = new RemoveCommand(config);
+            break;
         case 'repos':
-        commandExecutor = new ReposCommand(config);
-        break;
-    case 'search':
-        commandExecutor = new SearchCommand(config);
-        break;
-    case 'show':
-        commandExecutor = new ShowCommand(config);
-        break;
-    case 'switch':
-        commandExecutor = new SwitchCommand(config);
-        break;
-    case 'validate':
-        commandExecutor = new ValidateCommand(config);
-        break;
-    default:
+            commandExecutor = new ReposCommand(config);
+            break;
+        case 'search':
+            commandExecutor = new SearchCommand(config);
+            break;
+        case 'show':
+            commandExecutor = new ShowCommand(config);
+            break;
+        case 'switch':
+            commandExecutor = new SwitchCommand(config);
+            break;
+        case 'validate':
+            commandExecutor = new ValidateCommand(config);
+            break;
+        default:
+            break;
+    }
 
-}
-
-if (commandExecutor !== undefined) {
-    if (!commandExecutor.validate(args)) {
+    if (commandExecutor !== undefined) {
+        if (!commandExecutor.validate(args)) {
+            process.exit(1);
+        }
+        execute(commandExecutor, args).then(() => {
+            config.saveConfig();
+            process.exit(0);
+        });
+    }
+    else {
+        const help = new Help();
+        help.main();
         process.exit(1);
     }
-    execute(commandExecutor).then(() => {
-        config.saveConfig();
-        process.exit(0);
-    });
-}
-else {
-    const help = new Help();
-    help.main();
-    process.exit(1);
 }
 
-async function execute(commandExec: Executable) {
+async function execute(commandExec: Executable, args: CliArgs) {
     await commandExec.execute(args);
 }

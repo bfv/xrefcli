@@ -2,9 +2,10 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { Repo } from './repo';
-import { XrefFile} from 'xrefparser';
+import { XrefFile } from 'xrefparser';
 import * as tmp from 'tmp';
-import { exec } from 'child_process';
+import * as inquirer from 'inquirer';
+import { CliArgs } from './types';
 
 export class Config {
 
@@ -15,9 +16,19 @@ export class Config {
     private configFile = '';
     private tmpDir = '';
 
-    initialize() {
-        this.checkDirs();
-        this.data = this.loadConfig();
+    private currentCommand = '';
+
+    initialize(args: CliArgs): Promise<void> {
+
+        this.currentCommand = args.command;
+
+        return new Promise(resolve => {
+            this.checkDirs();
+            this.loadConfig().then(value => {
+                this.data = value;
+                resolve();
+            });
+        });
     }
 
     private checkDirs() {
@@ -40,48 +51,84 @@ export class Config {
         }
     }
 
-    private loadConfig(): ConfigData {
+    private loadConfig(): Promise<ConfigData> {
 
-        this.configFile = this.configRootDir + path.sep + 'xrefconfig.json';
+        const promise = new Promise<ConfigData>((resolve, reject) => {
 
-        let config = new ConfigData();
-        if (fs.existsSync(this.configFile)) {
-            config = Object.assign(new ConfigData(), require(this.configFile));
-        }
+            this.configFile = this.configRootDir + path.sep + 'xrefconfig.json';
 
-        if (!this.validateConfig(config)) {
-            process.exit(1);
-        }
+            let config = new ConfigData();
+            if (fs.existsSync(this.configFile)) {
+                config = Object.assign(new ConfigData(), require(this.configFile));
+            }
 
-        return config;
+            this.validateConfig(config).then(validationOk => {
+                if (validationOk) {
+                    resolve(config);
+                }
+                else {
+                    reject();
+                }
+            });
+
+        });
+
+        return promise;
     }
 
-    private validateConfig(config: ConfigData): boolean {
+    private async validateConfig(config: ConfigData): Promise<boolean> {
 
-        let validationOk = true;
-        if (config.editor) {
+        const promise = new Promise<boolean>(async resolve => {
+
+            let validationOk = true;
             // if the editor's name is filled, validation takes place
-            if (config.editor.name) {
-
-                const type = config.editor.type;
-                if (type !== 'gui' && type !== 'cli') {
-                    console.error('xrefconfig.json: editor "type" must be either "gui" or "cli"');
-                    validationOk = false;
-                }
-
-                const executable = config.editor.executable;
-                if (!executable) {
-                    console.error('xrefconfig.json: editor "executable" must be specified');
-                    validationOk = false;
-                }
-
-                if (!config.editor.open) {
-                    config.editor.open = '%s';
-                }
+            if (!config.editor.name) {
+                validationOk = false;
             }
-        }
 
-        return validationOk;
+            if (this.currentCommand === 'search' || this.currentCommand === 'show') {
+                await this.askEditorType(config);
+            }
+
+            const executable = config.editor.executable;
+            if (!executable) {
+                console.error('xrefconfig.json: editor "executable" must be specified');
+                validationOk = false;
+            }
+
+            if (!config.editor.open) {
+                config.editor.open = '%s';
+            }
+
+            resolve(validationOk);
+        });
+
+        return promise;
+    }
+
+    private async askEditorType(config: ConfigData): Promise<void> {
+
+        const promise = new Promise<void>(resolve => {
+
+            const type = config.editor.type;
+            if (type !== 'gui' && type !== 'cli') {
+                const prompt = inquirer.createPromptModule();
+                prompt({
+                    name: 'type',
+                    type: 'list',
+                    message: 'Editor type is not specified, what UI do you want?',
+                    choices: ['gui', 'cli']
+                }).then(answer => {
+                    config.editor.type = <'cli' | 'gui'>(<{ type: string }>answer).type;
+                    resolve();
+                });
+            }
+            else {
+                resolve();
+            }
+
+        });
+        return promise;
     }
 
     saveConfig() {
@@ -154,13 +201,13 @@ export class Config {
 
 export class ConfigData {
     current = '';
-    editor?: EditorConfig = {};
+    editor = new EditorConfig();
     repos: Repo[] = [];
 }
 
 export class EditorConfig {
-    name?: string;
-    type?: 'gui' | 'cli';
-    executable?: string;
-    open?: string;
+    name = '';
+    type: 'gui' | 'cli' | '' = '';
+    executable = '';
+    open = '';
 }
