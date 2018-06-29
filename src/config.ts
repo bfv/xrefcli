@@ -22,12 +22,11 @@ export class Config {
 
         this.currentCommand = args.command;
 
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
             this.checkDirs();
-            this.loadConfig().then(value => {
-                this.data = value;
-                resolve();
-            });
+            const value = await this.loadConfig();
+            this.data = value;
+            resolve();
         });
     }
 

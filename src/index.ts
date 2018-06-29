@@ -18,15 +18,25 @@ import { Help } from './help';
 import { ExportCommand } from './commands/export';
 import { CliArgs } from './types';
 
-const argsParser = new ArgsParser();
-const argv = argsParser.parse();
 
-const config = new Config();
-config.initialize(argv).then(() => {
+// const argsParser = new ArgsParser();
+// const argv = argsParser.parse();
+
+let config: Config;
+
+async function main() {
+
+    const argsParser = new ArgsParser();
+    const argv = argsParser.parse();
+
+    config = new Config();
+
+    await config.initialize(argv);
     executeCommand(argv);
-}, err => {
-    process.exit(1);
-});
+}
+
+main();
+
 
 function executeCommand(args: CliArgs) {
 
