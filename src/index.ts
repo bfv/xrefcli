@@ -76,7 +76,6 @@ function executeCommand(args: CliArgs) {
         }
         execute(commandExecutor, args).then(() => {
             config.saveConfig();
-            process.exit(0);
         });
     }
     else {
