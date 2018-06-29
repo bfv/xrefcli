@@ -25,10 +25,9 @@ export class ExportCommand implements Executable {
         this.xreffiles = this.config.loadRepo(this.reponame);
         this.searcher.add(this.xreffiles);
 
-        const promise = new Promise<void>((resolve, reject) => {
-            this.outputSourceTable().then(() => {
-                resolve();
-            });
+        const promise = new Promise<void>(async (resolve, reject) => {
+            await this.outputSourceTable();
+            resolve();
         });
 
         return promise;

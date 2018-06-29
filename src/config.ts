@@ -18,16 +18,18 @@ export class Config {
 
     private currentCommand = '';
 
-    initialize(args: CliArgs): Promise<void> {
+    async initialize(args: CliArgs): Promise<void> {
 
         this.currentCommand = args.command;
 
-        return new Promise(async resolve => {
+        const promise = new Promise<void>(async resolve => {
             this.checkDirs();
             const value = await this.loadConfig();
             this.data = value;
             resolve();
         });
+
+        return promise;
     }
 
     private checkDirs() {
@@ -50,9 +52,9 @@ export class Config {
         }
     }
 
-    private loadConfig(): Promise<ConfigData> {
+    private async loadConfig(): Promise<ConfigData> {
 
-        const promise = new Promise<ConfigData>((resolve, reject) => {
+        const promise = new Promise<ConfigData>(async (resolve, reject) => {
 
             this.configFile = this.configRootDir + path.sep + 'xrefconfig.json';
 
@@ -61,14 +63,13 @@ export class Config {
                 config = Object.assign(new ConfigData(), require(this.configFile));
             }
 
-            this.validateConfig(config).then(validationOk => {
-                if (validationOk) {
-                    resolve(config);
-                }
-                else {
-                    reject();
-                }
-            });
+            const validationOk = await this.validateConfig(config);
+            if (validationOk) {
+                resolve(config);
+            }
+            else {
+                reject();
+            }
 
         });
 
@@ -107,24 +108,20 @@ export class Config {
 
     private async askEditorType(config: ConfigData): Promise<void> {
 
-        const promise = new Promise<void>(resolve => {
+        const promise = new Promise<void>(async resolve => {
 
             const type = config.editor.type;
             if (type !== 'gui' && type !== 'cli') {
                 const prompt = inquirer.createPromptModule();
-                prompt({
+                const answer = await prompt({
                     name: 'type',
                     type: 'list',
                     message: 'Editor type is not specified, what UI do you want?',
                     choices: ['gui', 'cli']
-                }).then(answer => {
-                    config.editor.type = <'cli' | 'gui'>(<{ type: string }>answer).type;
-                    resolve();
                 });
+                config.editor.type = <'cli' | 'gui'>(<{ type: string }>answer).type;
             }
-            else {
-                resolve();
-            }
+            resolve();
 
         });
         return promise;
