@@ -22,12 +22,18 @@ export class ParseCommand implements Executable {
 
         const repo = this.config.getRepo(reponame);
 
+        const t1 = (new Date()).getTime();
+
         const parser = new Parser();
         const xrefdata = parser.parseDir(repo.dir, repo.srcdir);
+
+        const t2 = (new Date()).getTime();
 
         if (xrefdata !== undefined) {
             this.config.writeRepoData(repo.name, xrefdata);
         }
+
+        console.log(`elapsed: ${t2 - t1}ms`);
     }
 
     validate(params: any) {
