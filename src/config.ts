@@ -86,10 +86,6 @@ export class Config {
                 validationOk = false;
             }
 
-            if (this.currentCommand === 'search' || this.currentCommand === 'show') {
-                await this.askEditorType(config);
-            }
-
             const executable = config.editor.executable;
             if (!executable) {
                 console.error('xrefconfig.json: editor "executable" must be specified');
@@ -106,7 +102,7 @@ export class Config {
         return promise;
     }
 
-    private async askEditorType(config: ConfigData): Promise<void> {
+    async askEditorType(config: ConfigData): Promise<void> {
 
         const promise = new Promise<void>(async resolve => {
 
@@ -120,6 +116,7 @@ export class Config {
                     choices: ['gui', 'cli']
                 });
                 config.editor.type = <'cli' | 'gui'>(<{ type: string }>answer).type;
+                this.saveConfig();
             }
             resolve();
 

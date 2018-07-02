@@ -3,6 +3,7 @@ import { Executable } from '../executable';
 import { Searcher, XrefFile } from 'xrefparser';
 import { Help } from '../help';
 import { Editor } from '../editor';
+import * as path from 'path';
 
 export class SearchCommand implements Executable {
 
@@ -27,6 +28,7 @@ export class SearchCommand implements Executable {
 
     execute(params: any) {
 
+        const repo = this.config.getRepo(this.reponame);
         const xreffiles = this.config.loadRepo(this.reponame);
         const searcher = new Searcher(xreffiles);
 
@@ -43,7 +45,7 @@ export class SearchCommand implements Executable {
 
         if (this.openSources) {
             const editor = new Editor(this.config);
-            editor.open(result.map(item => item.sourcefile));
+            editor.open(result.map(item => repo.srcroot + path.sep + item.sourcefile));
         }
         else {
             if (this.jsonOutput) {
