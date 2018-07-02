@@ -1,5 +1,11 @@
 # Release notes XREFCLI
 
+## 2.3.0
+- interactive setup for editor type
+- bumped `xrefparser` to 1.0.0 (for bugfix)
+- stream lined some async handling
+- removed `process.exit(0);` from happy flow
+
 ## 2.2.0
 - added CLI support for viewing files in CLI
 
