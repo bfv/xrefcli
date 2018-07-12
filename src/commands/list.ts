@@ -20,21 +20,26 @@ export class ListCommand implements Executable {
         this.searcher = new Searcher();
     }
 
-    execute(params: any): void {
+    execute(params: any): Promise<void> {
 
-        this.xreffiles = this.config.loadRepo(this.config.data.current);
-        this.searcher.add(this.xreffiles);
+        const promise = new Promise<void>(resolve => {
 
-        switch (this.outputType) {
+            this.xreffiles = this.config.loadRepo(this.config.data.current);
+            this.searcher.add(this.xreffiles);
 
-            case 'tables':
-                this.outputTables();
-                break;
-            case 'dbs':
-                this.outputDatabases();
-                break;
-        }
+            switch (this.outputType) {
 
+                case 'tables':
+                    this.outputTables();
+                    break;
+                case 'dbs':
+                    this.outputDatabases();
+                    break;
+            }
+
+            resolve();
+        });
+        return promise;
     }
 
     validate(params: any) {

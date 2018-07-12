@@ -18,22 +18,28 @@ export class ShowCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any): void {
+    execute(params: any): Promise<void> {
 
-        const xreffiles = this.config.loadRepo(this.config.data.current);
-        const xreffile = xreffiles.filter(item => item.sourcefile === this.source)[0];
+        const promise = new Promise<void>(resolve => {
 
-        if (xreffile === undefined) {
-            console.error(`source '${this.source}' not in repo '${this.config.data.current}'`);
-            return;
-        }
+            const xreffiles = this.config.loadRepo(this.config.data.current);
+            const xreffile = xreffiles.filter(item => item.sourcefile === this.source)[0];
 
-        if (this.openFile) {
-            this.openEditor(xreffile);
-        }
-        else {
-            this.generateOutput(xreffile);
-        }
+            if (xreffile === undefined) {
+                console.error(`source '${this.source}' not in repo '${this.config.data.current}'`);
+            }
+            else {
+                if (this.openFile) {
+                    this.openEditor(xreffile);
+                }
+                else {
+                    this.generateOutput(xreffile);
+                }
+            }
+            resolve();
+        });
+
+        return promise;
     }
 
     validate(params: any) {
@@ -77,7 +83,7 @@ export class ShowCommand implements Executable {
     private openEditor(xreffile: XrefFile) {
         const editor = new Editor(this.config);
         if (this.xrefOutput) {
-            editor.open( [ xreffile.xreffile ] );
+            editor.open([xreffile.xreffile]);
         }
         else {
             editor.openContent(JSON.stringify(xreffile, undefined, 2));

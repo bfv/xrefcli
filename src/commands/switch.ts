@@ -11,11 +11,17 @@ export class SwitchCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any) {
-        if (this.reponame !== undefined) {
-            this.config.data.current = this.reponame;
-        }
-        console.log(this.config.data.current);
+    execute(params: any): Promise<void> {
+
+        const promise = new Promise<void>(resolve => {
+            if (this.reponame !== undefined) {
+                this.config.data.current = this.reponame;
+            }
+            console.log(this.config.data.current);
+            resolve();
+        });
+
+        return promise;
     }
 
     validate(params: any) {

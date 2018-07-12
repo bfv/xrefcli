@@ -11,25 +11,33 @@ export class ValidateCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any): void {
+    execute(params: any): Promise<void> {
 
-        let ok = true;
-        const xreffiles = this.config.loadRepo(this.config.data.current);
+        const promise = new Promise<void>(resolve => {
 
-        xreffiles.forEach(xreffile => {
+            let ok = true;
+            const xreffiles = this.config.loadRepo(this.config.data.current);
 
-            // check if all table have a name property
-            xreffile.tables.forEach(table => {
-                if (table.name === undefined) {
-                    console.error('undefied name attribute for table: ', JSON.stringify(table));
-                    ok = false;
-                }
+            xreffiles.forEach(xreffile => {
+
+                // check if all table have a name property
+                xreffile.tables.forEach(table => {
+                    if (table.name === undefined) {
+                        console.error('undefied name attribute for table: ', JSON.stringify(table));
+                        ok = false;
+                    }
+                });
             });
+
+            if (ok) {
+                console.log(this.config.data.current + ': OK');
+            }
+
+            resolve();
         });
 
-        if (ok) {
-            console.log(this.config.data.current + ': OK');
-        }
+        return promise;
+
     }
 
     validate(params: any) {

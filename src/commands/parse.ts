@@ -14,8 +14,13 @@ export class ParseCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any): void {
-        this.parse(this.reponame);
+    execute(params: any): Promise<void> {
+
+        const promise = new Promise<void>(resolve => {
+            this.parse(this.reponame);
+            resolve();
+        });
+        return promise;
     }
 
     parse(reponame: string) {

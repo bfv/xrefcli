@@ -11,11 +11,16 @@ export class RemoveCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any): void {
+    execute(params: any): Promise<void> {
 
-        this.config.removeRepo(this.reponame);
-        this.config.data.current = '';
-        console.log(this.reponame);
+        const promise = new Promise<void>(resolve => {
+            this.config.removeRepo(this.reponame);
+            this.config.data.current = '';
+            console.log(this.reponame);
+            resolve();
+        });
+        return promise;
+
     }
 
     validate(params: any) {
@@ -28,7 +33,7 @@ export class RemoveCommand implements Executable {
             process.exit(0);
         }
 
-        const reponame = <string> options['name'];
+        const reponame = <string>options['name'];
         if (reponame === undefined) {
             console.error('Error: a repo name should be provided');
             return false;

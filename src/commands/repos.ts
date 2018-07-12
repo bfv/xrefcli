@@ -11,28 +11,34 @@ export class ReposCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any): void {
+    execute(params: any): Promise<void> {
 
-        const numIndent = 2;
+        const promise = new Promise<void>(resolve => {
 
-        if (this.json) {
-            if (!this.verbose) {
-                console.log(JSON.stringify(this.config.data.repos.map(repo => repo.name), undefined, numIndent));
-            }
-            else {
-                console.log(JSON.stringify(this.config.data.repos, undefined, numIndent));
-            }
-        }
-        else {
-            this.config.data.repos.forEach(repo => {
+            const numIndent = 2;
+
+            if (this.json) {
                 if (!this.verbose) {
-                    console.log((repo.name === this.config.data.current ? '*' : '') + repo.name);
+                    console.log(JSON.stringify(this.config.data.repos.map(repo => repo.name), undefined, numIndent));
                 }
                 else {
-                    console.log(`${repo.name}: dir=${repo.dir}` + (repo.srcdir !== undefined ? `, src=${repo.srcdir}` : ''));
+                    console.log(JSON.stringify(this.config.data.repos, undefined, numIndent));
                 }
-            });
-        }
+            }
+            else {
+                this.config.data.repos.forEach(repo => {
+                    if (!this.verbose) {
+                        console.log((repo.name === this.config.data.current ? '*' : '') + repo.name);
+                    }
+                    else {
+                        console.log(`${repo.name}: dir=${repo.dir}` + (repo.srcdir !== undefined ? `, src=${repo.srcdir}` : ''));
+                    }
+                });
+            }
+            resolve();
+        });
+
+        return promise;
     }
 
     validate(params: any) {
