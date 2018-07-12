@@ -14,13 +14,18 @@ export class InitCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any): void {
+    execute(params: any): Promise<void> {
 
-        if (this.repo) {
-            this.config.addRepo(this.repo);
-            this.config.data.current = this.repo.name;
-            console.log(this.repo.name);
-        }
+        const promise = new Promise<void>(resolve => {
+            if (this.repo) {
+                this.config.addRepo(this.repo);
+                this.config.data.current = this.repo.name;
+                console.log(this.repo.name);
+            }
+            resolve();
+        });
+
+        return promise;
     }
 
     validate(params: any) {

@@ -26,8 +26,15 @@ export class SearchCommand implements Executable {
         this.config = config;
     }
 
-    execute(params: any) {
+    execute(params: any): Promise<void> {
+        const promise = new Promise<void>(resolve => {
+            this.search();
+            resolve();
+        });
+        return promise;
+    }
 
+    private search() {
         const repo = this.config.getRepo(this.reponame);
         const xreffiles = this.config.loadRepo(this.reponame);
         const searcher = new Searcher(xreffiles);
@@ -37,7 +44,7 @@ export class SearchCommand implements Executable {
             result = searcher.getFieldReferences(this.field, this.table, this.hasUpdates);
         }
         else if (this.table !== undefined) {
-            result = searcher.getTabelReferences(this.table, this.hasCreates, this.hasUpdates, this.hasDeletes);
+            result = searcher.getTableReferences(this.table, this.hasCreates, this.hasUpdates, this.hasDeletes);
         }
         else if (this.db !== undefined) {
             result = searcher.getDatabaseReferences(this.db);
@@ -63,7 +70,7 @@ export class SearchCommand implements Executable {
         }
     }
 
-    validate(params: any) {
+    validate(params: any): boolean {
 
         const options = params['options'];
 
