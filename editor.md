@@ -1,6 +1,6 @@
 # Editor configuration
 
-XREFCLI has the possibility to open files from the commandline. This can either be an external GUI program like visual studio code for example or other commandline tools like `view`, the read-only version of `vi'.
+XREFCLI has the possibility to open xref or json files from the commandline. This can either be an external GUI program like visual studio code for example or other commandline tools like `view`, the read-only version of `vi'.
 
 ## `.xrefcli/xrefconfig.json`
 In this file, located in either `%USERPROFILE%` or `$HOME`, the setup of the editor is done. The `editor` node must be in the root of the configuration JSON.
@@ -44,8 +44,3 @@ Properties:
     "open": "%s"
   },
 ```
-
-
-
-
-
