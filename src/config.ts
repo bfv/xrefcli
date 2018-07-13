@@ -78,25 +78,9 @@ export class Config {
 
     private async validateConfig(config: ConfigData): Promise<boolean> {
 
+        // stripped validation for now
         const promise = new Promise<boolean>(async resolve => {
-
-            let validationOk = true;
-            // if the editor's name is filled, validation takes place
-            if (!config.editor.name) {
-                validationOk = false;
-            }
-
-            const executable = config.editor.executable;
-            if (!executable) {
-                console.error('xrefconfig.json: editor "executable" must be specified');
-                validationOk = false;
-            }
-
-            if (!config.editor.open) {
-                config.editor.open = '%s';
-            }
-
-            resolve(validationOk);
+            resolve(true);
         });
 
         return promise;
