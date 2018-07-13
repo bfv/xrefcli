@@ -1,5 +1,10 @@
 # Release notes XREFCLI
 
+## 2.4.0
+- bumped `xrefparser` to 2.1.0
+- commands are now async
+- bugs fixes
+
 ## 2.3.0
 - interactive setup for editor type
 - bumped `xrefparser` to 1.0.0 (for bugfix)
