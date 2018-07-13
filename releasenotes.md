@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.4.1
+- removed editor validation from config validate
+
 ## 2.4.0
 - bumped `xrefparser` to 2.1.0
 - commands are now async
