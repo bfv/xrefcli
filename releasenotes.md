@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.4.2
+- linked correctly from README.md to editor.md
+
 ## 2.4.1
 - removed editor validation from config validate
 
