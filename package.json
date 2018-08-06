@@ -38,6 +38,6 @@
     "inquirer": "^6.0.0",
     "pkginfo": "^0.4.1",
     "tmp": "0.0.33",
-    "xrefparser": "^2.1.0"
+    "xrefparser": "^3.0.4"
   }
 }
