@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.4.3
+- incorrect code pushed to npm
+
 ## 2.4.2
 - linked correctly from README.md to editor.md
 
