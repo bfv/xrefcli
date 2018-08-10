@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.5.0
+- updated xprefparser dependency to 3.0.4 (sequence fix)
+
 ## 2.4.3
 - incorrect code pushed to npm
 
