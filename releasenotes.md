@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.5.1
+- #22 added [CUD] to output of `show --tables`
+
 ## 2.5.0
 - updated xprefparser dependency to 3.0.4 (sequence fix)
 
