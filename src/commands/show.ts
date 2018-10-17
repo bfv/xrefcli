@@ -105,8 +105,14 @@ export class ShowCommand implements Executable {
                     console.log(JSON.stringify(xreffile.tablenames, undefined, 2));
                 }
                 else {
-                    xreffile.tablenames.forEach(table => {
-                        console.log(table);
+                    xreffile.tables.forEach(table => {
+                        const crdString = '[' +
+                          (table.isCreated ? 'C' : ' ') +
+                          (table.isUpdated ? 'U' : ' ') +
+                          (table.isDeleted ? 'D' : ' ') + '] ' +
+                          table.name;
+
+                        console.log(crdString);
                     });
                 }
             }
