@@ -76,7 +76,12 @@ export class ArgsParser {
                 break;
         }
 
-        options = Object.assign(options, commandLineArgs(optionDefs, { argv }));
+        try {
+            options = Object.assign(options, commandLineArgs(optionDefs, { argv }));
+        }
+        catch (e) {
+            console.error(e.toString().split('\n')[0]);
+        }
 
         return {
             command: mainOptions.command,
@@ -133,6 +138,9 @@ export class ArgsParser {
         optionDefs.push({ name: 'create', alias: 'c' });
         optionDefs.push({ name: 'update', alias: 'u' });
         optionDefs.push({ name: 'delete', alias: 'd' });
+        optionDefs.push({ name: 'class' });
+        optionDefs.push({ name: 'method' });
+        optionDefs.push({ name: 'interface' });
         optionDefs.push(this.jsonDefinition);
         optionDefs.push({ name: 'batch', alias: 'b', type: Boolean });  // batch, no count in results
         optionDefs.push({ name: 'open', alias: 'o', type: Boolean });
