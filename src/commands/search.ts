@@ -18,6 +18,9 @@ export class SearchCommand implements Executable {
     private hasCreates?: boolean;
     private hasUpdates?: boolean;
     private hasDeletes?: boolean;
+    private class?: string;
+    private method?: string;
+    private interface?: string;
     private batch = false;
     private openSources = false;
     private jsonOutput = false;
@@ -106,6 +109,24 @@ export class SearchCommand implements Executable {
         this.db = options['db'];
         if (this.db === null) {
             console.error('Database name for --db option needs to be specified');
+            return false;
+        }
+
+        this.class = options['class'];
+        if (this.class === null) {
+            console.error('Class name for --class option needs to be specified');
+            return false;
+        }
+
+        this.method = options['method'];
+        if (this.method === null) {
+            console.error('Method name for --method option needs to be specified');
+            return false;
+        }
+
+        this.interface = options['interface'];
+        if (this.interface === null) {
+            console.error('Interface name for --interface option needs to be specified');
             return false;
         }
 
