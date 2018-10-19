@@ -45,3 +45,5 @@ tmp/
 
 deploy.cmd
 src/testlocal.ts
+src/result.csv
+src/sources.txt
