@@ -119,6 +119,7 @@ export class ArgsParser {
     private matrixOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
         optionDefs.push({ name: 'tables', alias: 't', type: Boolean });
         optionDefs.push({ name: 'sources', alias: 's', type: Boolean });
+        optionDefs.push(this.jsonDefinition);
         return optionDefs;
     }
 

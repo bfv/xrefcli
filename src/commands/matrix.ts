@@ -8,6 +8,8 @@ export class MatrixCommand implements Executable {
 
     private inputFromSources = true;
     private inputFromTables = false;
+    private outputJson = false;
+
     private config: Config;
     private xreffiles: XrefFile[];
     private excludes: string[] = [];
@@ -26,6 +28,9 @@ export class MatrixCommand implements Executable {
 
             if (this.inputFromSources) {
                 this.iterateSources(inputArray);
+            }
+            else if (this.inputFromTables) {
+                this.iterateTables(inputArray);
             }
 
             resolve();
@@ -102,25 +107,88 @@ export class MatrixCommand implements Executable {
 
     }
 
+    private iterateTables(tablesArray: Array<string>): void {
+
+        const matrix: { [key: string]: { [key: string]: string} } = {};
+        let allsources: string[] = [];
+        let sourcesArray: string[] = [];
+        const allTables: Array<string> = [];
+
+        tablesArray.forEach(tablename => {
+            const files = this.xreffiles.filter(xreffile => {
+                const tables = xreffile.tables.filter(table => {
+                    return (table.database + '.' + table.name).toLowerCase() === tablename.toLowerCase() ||
+                            table.name.toLowerCase() === tablename.toLowerCase();
+
+                });
+
+                return tables.length > 0;
+            });
+            allsources = allsources.concat(files.map(xfile => xfile.sourcefile));
+        });
+
+        sourcesArray = [...new Set(allsources)];
+
+        for (const source of sourcesArray) {
+
+            const tablesOfSource: { [key: string]: string } = {};
+            const xreffile = this.xreffiles.filter(item => item.sourcefile === source)[0];
+            // let sourcename = '';
+
+            if (xreffile !== undefined) {
+
+                xreffile.tables.forEach(table => {
+
+                    if (tablesArray.indexOf((table.database + '.' + table.name).toLowerCase()) >= 0 ||
+                            tablesArray.indexOf((table.name).toLowerCase()) >= 0) {
+
+                        const crdString =
+                            (table.isCreated ? 'C' : ' ') +
+                            'R' +
+                            (table.isUpdated ? 'U' : ' ') +
+                            (table.isDeleted ? 'D' : ' ');
+                        tablesOfSource[table.database + '.' + table.name] = crdString;
+                        allTables.push(table.database + '.' + table.name);
+                    }
+
+                });
+            }
+
+            matrix[source] = tablesOfSource;
+
+        }
+
+        const tablenames = [... new Set(allTables)];
+        tablenames.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
+
+        this.outputMatrix(matrix, tablenames);
+    }
+
     private outputMatrix(matrix: { [key: string]: { [key: string]: string} }, tablenames: string[]) {
 
-        // output table names first
-        let line = '';
-        tablenames.forEach(tablename => {
-            line += ';' + tablename;
-        });
-
-        console.log(line);
-
-        const sourcenames = Object.keys(matrix);
-        sourcenames.forEach(source => {
-            line = source;
+        if (this.outputJson) {
+            console.log(JSON.stringify(matrix, null, 2));
+            return;
+        }
+        else {
+            // output table names first
+            let line = '';
             tablenames.forEach(tablename => {
-                const crud = matrix[source][tablename];
-                line += ';' + ((crud !== undefined) ? crud : '');
+                line += ';' + tablename;
             });
+
             console.log(line);
-        });
+
+            const sourcenames = Object.keys(matrix);
+            sourcenames.forEach(source => {
+                line = source;
+                tablenames.forEach(tablename => {
+                    const crud = matrix[source][tablename];
+                    line += ';' + ((crud !== undefined) ? crud : '');
+                });
+                console.log(line);
+            });
+        }
     }
 
     private async readStdin(): Promise<Array<string>> {
@@ -168,6 +236,11 @@ export class MatrixCommand implements Executable {
 
         if (<boolean>options['tables'] === true) {
             this.inputFromTables = true;
+            this.inputFromSources = false;  // reset default
+        }
+
+        if (<boolean>options['json'] === true) {
+            this.outputJson = true;
         }
 
         return true;

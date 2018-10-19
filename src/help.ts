@@ -24,7 +24,7 @@ export class Help {
                     { name: 'export', summary: 'Exports source/table usage to CSV' },
                     { name: 'init', summary: 'Initializes repo' },
                     { name: 'list', summary: 'List tables/database used in current repo' },
-                    { name: 'matrix', summary: 'Creates CSV of table usage by sources'},
+                    { name: 'matrix', summary: 'Creates CSV of table usage by sources' },
                     { name: 'parse', summary: 'Parses .xref files of repo' },
                     { name: 'remove', summary: 'Removes a repo' },
                     { name: 'repos', summary: 'List the available repos' },
@@ -152,15 +152,14 @@ export class Help {
             },
             {
                 header: 'Synopsis',
-                // content: 'xref matrix [ [--tables] | [--sources] ] [ < <tablefile> | <sourcefile> ] '
-                content: 'xref matrix [--sources] [ < <sourcefile> ] '
+                content: 'xref matrix [ [--tables] | [--sources] ] [ < <tablefile> | <sourcefile> ] '
             },
             {
                 header: 'Options',
                 content: [
-                    // '--tables, t      (default) input from stdin are tables',
-                    '--sources, -s    input from stdin are sources'
-                    // '--json           Output in JSON format, disregards the --dbprefix setting'
+                    '--sources, -s    (default) input from stdin are sources',
+                    '--tables, t      input from stdin are tables',
+                    '--json           Output in JSON format'
                 ]
             },
             {
