@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.6.1
+- corrected errors previous deploy
+
 ## 2.6.0
 - added matrix command
 
