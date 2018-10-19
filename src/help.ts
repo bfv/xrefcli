@@ -142,6 +142,43 @@ export class Help {
         console.log(usage);
     }
 
+    matrixCommand() {
+
+        this.sections = [
+            {
+                header: 'XREFCLI - matrix command',
+                content: 'Create tables/sources CRUD matrix from stdin'
+            },
+            {
+                header: 'Synopsis',
+                // content: 'xref matrix [ [--tables] | [--sources] ] [ < <tablefile> | <sourcefile> ] '
+                content: 'xref matrix [--sources] [ < <sourcefile> ] '
+            },
+            {
+                header: 'Options',
+                content: [
+                    // '--tables, t      (default) input from stdin are tables',
+                    '--sources, -s    input from stdin are sources'
+                    // '--json           Output in JSON format, disregards the --dbprefix setting'
+                ]
+            },
+            {
+                header: 'Description',
+                content: [
+                    'This command takes the sources from stdin and outputs CSV to stdout.',
+                    // tslint:disable-next-line:max-line-length
+                    'Because the sources come from stdin, the input can be either from the console or a file. When using a file, make sure that there is at least empty line which includes an EOL, otherwise the file won\'t be parsed.',
+                    '',
+                    // tslint:disable-next-line:max-line-length
+                    'When a line start with \'-\', tables which start with that expression will not be in the output. \'-sports\' will exclude all tables which database name starts with \'sports\'.'
+                ]
+            }
+        ];
+
+        const usage = this.commandLineUsage(this.sections);
+        console.log(usage);
+    }
+
     parseCommand() {
         this.sections = [
             {

@@ -17,6 +17,7 @@ import { ValidateCommand } from './commands/validate';
 import { Help } from './help';
 import { ExportCommand } from './commands/export';
 import { CliArgs } from './types';
+import { MatrixCommand } from './commands/matrix';
 
 
 // const argsParser = new ArgsParser();
@@ -54,6 +55,9 @@ function executeCommand(args: CliArgs) {
             break;
         case 'list':
             commandExecutor = new ListCommand(config);
+            break;
+        case 'matrix':
+            commandExecutor = new MatrixCommand(config);
             break;
         case 'parse':
             commandExecutor = new ParseCommand(config);

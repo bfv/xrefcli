@@ -51,6 +51,10 @@ export class ArgsParser {
                 optionDefs = this.listOptions(optionDefs);
                 break;
 
+            case 'matrix':
+                optionDefs = this.matrixOptions(optionDefs);
+                break;
+
             case 'parse':
                 optionDefs = this.parseOptions(optionDefs);
                 break;
@@ -109,6 +113,12 @@ export class ArgsParser {
         optionDefs.push({ name: 'dbprefix', alias: 'p', type: Boolean });
         optionDefs.push({ name: 'dbs', alias: 'd', type: Boolean});
         optionDefs.push(this.jsonDefinition);
+        return optionDefs;
+    }
+
+    private matrixOptions(optionDefs: OptionDefinition[]): OptionDefinition[] {
+        optionDefs.push({ name: 'tables', alias: 't', type: Boolean });
+        optionDefs.push({ name: 'sources', alias: 's', type: Boolean });
         return optionDefs;
     }
 
