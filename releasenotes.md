@@ -1,10 +1,14 @@
 # Release notes XREFCLI
 
+## 2.7.0
+- implemented --tables & --json parameters
+- added excludes for --tables option
+
 ## 2.6.1
 - corrected errors previous deploy
 
 ## 2.6.0
-- added matrix command
+- #23 added matrix command
 
 ## 2.5.3
 - handled unknown options error
