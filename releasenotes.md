@@ -1,5 +1,12 @@
 # Release notes XREFCLI
 
+## 2.5.3
+- handled unknown options error
+- Execute.validate now returns boolean
+
+# 2.5.2
+- errorneuos publish
+
 ## 2.5.1
 - #22 added [CUD] to output of `show --tables`
 
