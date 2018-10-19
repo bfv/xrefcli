@@ -24,6 +24,7 @@ export class Help {
                     { name: 'export', summary: 'Exports source/table usage to CSV' },
                     { name: 'init', summary: 'Initializes repo' },
                     { name: 'list', summary: 'List tables/database used in current repo' },
+                    { name: 'matrix', summary: 'Creates CSV of table usage by sources'},
                     { name: 'parse', summary: 'Parses .xref files of repo' },
                     { name: 'remove', summary: 'Removes a repo' },
                     { name: 'repos', summary: 'List the available repos' },
