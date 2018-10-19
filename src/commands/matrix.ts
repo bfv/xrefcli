@@ -119,7 +119,6 @@ export class MatrixCommand implements Executable {
                 const tables = xreffile.tables.filter(table => {
                     return (table.database + '.' + table.name).toLowerCase() === tablename.toLowerCase() ||
                             table.name.toLowerCase() === tablename.toLowerCase();
-
                 });
 
                 return tables.length > 0;
@@ -160,6 +159,15 @@ export class MatrixCommand implements Executable {
 
         const tablenames = [... new Set(allTables)];
         tablenames.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
+
+        // remove excluded sources
+        Object.keys(matrix).forEach(key => {
+            this.excludes.forEach(exclude => {
+                if (key.startsWith(exclude)) {
+                    delete matrix[key];
+                }
+            });
+        });
 
         this.outputMatrix(matrix, tablenames);
     }
