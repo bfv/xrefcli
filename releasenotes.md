@@ -1,10 +1,13 @@
 # Release notes XREFCLI
 
+## 2.6.0
+- added matrix command
+
 ## 2.5.3
 - handled unknown options error
 - Execute.validate now returns boolean
 
-# 2.5.2
+## 2.5.2
 - errorneuos publish
 
 ## 2.5.1
