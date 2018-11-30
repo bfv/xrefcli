@@ -152,6 +152,7 @@ export class ArgsParser {
         optionDefs.push({ name: 'class' });
         optionDefs.push({ name: 'method' });
         optionDefs.push({ name: 'interface' });
+        optionDefs.push({ name: 'include' });
         optionDefs.push(this.jsonDefinition);
         optionDefs.push({ name: 'batch', alias: 'b', type: Boolean });  // batch, no count in results
         optionDefs.push({ name: 'open', alias: 'o', type: Boolean });

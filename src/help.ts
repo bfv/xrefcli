@@ -241,6 +241,7 @@ export class Help {
             {
                 header: 'Synopsis',
                 content: 'xref search [ --field <fieldname>] [--table <tablename] [--db <dbname>] ' +
+                    '[--include <includename>]' +
                     '[--create [true | false] [--update [true | false]] [--delete [true | false]'
             },
             {
@@ -249,6 +250,7 @@ export class Help {
                     '--field, -f      search for field references',
                     '--table, -t      search for table references (can be combined with --field)',
                     '--db             search for sources accessing <dbname>',
+                    '--include        search for an include file (nested)',
                     '--create, -c     filter on whether the --table is created (default: true)',
                     '--delete, -d     see --create, only for deletes',
                     '--update, -u     filter on whether the --field is updated (default: true)',
@@ -259,7 +261,7 @@ export class Help {
                 header: 'Examples',
                 content: [
                     'xref search --field custum --table customer --update',
-                    '  search for source which update customer.custnum field',
+                    '  search for sources which update customer.custnum field',
                     ' ',
                     'xref search --table order --create',
                     '  search for sources which create customer records'

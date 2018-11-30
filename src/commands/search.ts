@@ -21,6 +21,7 @@ export class SearchCommand implements Executable {
     private class?: string;
     private method?: string;
     private interface?: string;
+    private include?: string;
     private batch = false;
     private openSources = false;
     private jsonOutput = false;
@@ -52,6 +53,9 @@ export class SearchCommand implements Executable {
         else if (this.db !== undefined) {
             result = searcher.getDatabaseReferences(this.db);
         }
+        else if (this.include !== undefined) {
+            result = searcher.getIncludeReferences(this.include);
+        }
 
         if (this.openSources) {
             const editor = new Editor(this.config);
@@ -68,7 +72,7 @@ export class SearchCommand implements Executable {
             }
 
             if (!this.batch) {
-                console.log('count=', result.length);
+                console.log('count =', result.length);
             }
         }
     }
@@ -127,6 +131,12 @@ export class SearchCommand implements Executable {
         this.interface = options['interface'];
         if (this.interface === null) {
             console.error('Interface name for --interface option needs to be specified');
+            return false;
+        }
+
+        this.include = options['include'];
+        if (this.interface === null) {
+            console.error('Interface name for --include option needs to be specified');
             return false;
         }
 
