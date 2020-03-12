@@ -1,5 +1,8 @@
 # Release notes XREFCLI
 
+## 2.8.0
+- #21 added searching for includes
+
 ## 2.7.0
 - implemented --tables & --json parameters
 - added excludes for --tables option
